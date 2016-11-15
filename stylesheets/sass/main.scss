@@ -7,12 +7,62 @@ $testing: true;
 }
 
 //wrapper for demo and header, and maybe nav (want to have it sitting on wire)
+body {
+    overflow-x: hidden;
+}
 .wrapper {
-    width: 100vw;
+    width: 100%;
     @include testing(blue);
     height: 100vh;
+    position: relative;
+    nav {
+        position: absolute;
+        bottom: 0px;
+    }
 }
 //contains all code examples
 main {
-    
+    position: relative;
+    width: 100%;
+    @include testing(red);
+    //background-color: bisque;
+    transform-style: preserve-3d;
+    perspective: 2000px;
+    min-height: 80vh;
+    section {
+        @include testing(green);
+        position: absolute;
+        top: 0px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        transform-origin: center center -25vw;
+        &.scss {
+            transform: translate(-50%, 0) rotateY(-90deg);// translateX(-50%);
+            //animation: slide-center 1s 3s both;
+        }
+        &.html {
+            transform: translate(-50%, 0) rotateY(90deg);
+            //animation: slide-right 1s 3s both;
+        }
+        &.overview {
+            //starts with no transform rotation
+            transform: translate(-50%, 0);
+        }
+        &.js {
+            transform: translate(-50%, 0) rotateY(180deg);
+        }
+        pre {
+            //this forces horizontal scroll bar for some reason
+            max-height: 80vh;
+        }
+    }
+}
+@keyframes slide-center {
+    to {opacity: 1; transform: translate(-50%, 0); }  
+}
+@keyframes slide-left {
+    to {opacity: 0; transform: translate(-50%, 0) rotateY(-90deg);} 
+}
+@keyframes slide-right {
+    to {opacity: 0; transform: translate(-50%, 0) rotateY(90deg);} 
 }

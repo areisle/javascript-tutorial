@@ -11,24 +11,169 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src=""></script>
+    <script src="external-sources/prism.js"></script>
+    <script src="scripts/main.js"></script>
+    <link rel="stylesheet" href="external-sources/prism.css">
 </head>
 <body>
     <!-- wrapper for header and demo animation  -->
     <div class="wrapper">
         <header></header>
+        <!-- links will hopefully be sitting on a wire -->
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#html">HTML</a></li>
+                <li><a href="#css">SCSS</a></li>
+                <li><a href="#js">JS</a></li>
+            </ul>
+        </nav>
     </div>
     <!-- main body, will contain code example and explanation  -->
     <main>
-        <script async src="//jsfiddle.net/areisle/8v3yog37/embed/result/?bodyColor=orange"></script>
+<!--        <script async src="//jsfiddle.net/areisle/8v3yog37/embed/"></script>-->
+<!--<iframe width="100%" height="300" src="//jsfiddle.net/areisle/8v3yog37/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>-->
         <!-- expanation -->
-        <section></section>
+        <section class="overview"><h1>Overview</h1></section>
         <!-- html -->
-        <section></section>
+        <section class="html">
+            <pre class="language-html">
+            <code>
+&lt;body>
+&lt;div id="parent">
+&lt;div id="scroll">
+&lt;/div>
+&lt;div id="outer">
+&lt;div class="prism" id="upper">
+  &lt;div class="front">front&lt;/div>
+  &lt;div class="back">&lt;/div>
+  &lt;div class="top">top&lt;/div>
+  &lt;div class="bottom">bottom&lt;/div>
+  &lt;div class="left">left&lt;/div>
+  &lt;div class="right">right&lt;/div>
+&lt;/div>
+&lt;div class="prism" id="lower">
+  &lt;div class="front">front&lt;/div>
+  &lt;div class="back">&lt;/div>
+  &lt;div class="top">top&lt;/div>
+  &lt;div class="bottom">bottom&lt;/div>
+  &lt;div class="left">left&lt;/div>
+  &lt;div class="right">right&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/body>    
+            </code>
+            </pre>
+        </section>
         <!-- css/scss -->
-        <section></section>
+        <section class="scss">
+             <pre>
+<code class="language-css">
+$width: 200px;
+$height: 140px;
+$depth: 50px;
+@keyframes open-lid {
+  from {transform:translateZ($depth/2) rotateX(0deg);opacity:1}
+  to {transform:translateZ($depth/2) rotateX(60deg);opacity:1}
+}
+@keyframes fade-lid {
+  from {opacity: 1;}
+  to {opacity: 0;}
+}
+* {
+  box-sizing:border-box;
+}
+body {
+  height: 2000px;
+  overflow-y: scroll;
+  margin: 0;
+}
+#parent {
+  box-sizing:content-box;
+	perspective:800px;
+	perspective-origin: center -60px;
+  //border: green solid 1px;
+  width: $width;
+  height:$height;
+  position:fixed;
+  top: 100px;
+  left: 100px;
+}
+
+.prism {
+	position: absolute;
+	transform-style: preserve-3d;
+  width:100%;
+  height:100%;
+}
+.prism div {
+	position: absolute;
+  border: black solid 3px;
+  text-align: center;
+  display: block;
+}
+.front, .back{
+  width:$width;
+  height:$height;
+}
+.top, .bottom {
+  width:$width;
+  height:$depth;
+  top:($height - $depth)/2;
+}
+.left, .right {
+  width: $depth;
+  height: $height;
+  left: ($width - $depth)/2;
+}
+.front {
+  transform: translateZ($depth/2);
+}
+.back {
+  transform: rotateY(180deg) translateZ($depth/2);
+}
+.top {
+  transform: rotateX(90deg) translateZ($height/2);
+}
+.bottom {
+  transform: rotateX(270deg) translateZ($height/2);
+  display: none;
+}
+.left {
+  transform: rotateY(270deg) translateZ($width/2);
+}
+.right {
+  transform: rotateY(90deg) translateZ($width/2);
+}
+#upper {
+  margin: auto;
+  //border: blue dashed 2px;
+  transform-origin: $width/2 0px -$depth/2;
+  transform:translateZ($depth/2) rotateX(60deg);
+  opacity: 0;
+  animation-name: open-lid, fade-lid;
+  animation-duration: 1.5s, 1.5s;
+  animation-delay: 0s, 0.5s;
+  animation-timing-function: ease-out, ease;
+}
+#lower {
+  transform-origin: center bottom $depth/2;
+  transform:translateZ(-$depth/2);
+}
+#outer {
+  //border: blue dashed 2px;
+  width:100%;
+  height:100%;
+  transform-style:preserve-3d;
+  transform-origin: center bottom 0px;
+  opacity: 1;
+}
+</code>
+                </pre>
+        </section>
         <!-- js/jquery -->
-        <section></section>
+        <section class="js"><h1>Javascript</h1></section>
     </main>
 </body>
 </html>
