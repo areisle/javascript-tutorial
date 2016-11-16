@@ -74,7 +74,12 @@ $(document).ready(function(){
             destination = $(this).attr('href').substring(1);
         navigate(origin, destination);
     });
-    
+    //link to navigate to start of sections
+    $('.wrapper > a').on('click', function (e){
+        e.preventDefault();
+        //$('body').animate({scrollTop: $('main').offset().top - $(window).height()/5}, 1000);
+        $('body').animate({scrollTop: $(document).height()-$(window).height()}, 1000);
+    });
     //events for arrow keys
     $(document).keydown(function(e) {
         var origin = $('section.active').attr('id');

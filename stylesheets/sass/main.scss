@@ -10,13 +10,18 @@ $testing: true;
 //wrapper for demo and header, and maybe nav (want to have it sitting on wire)
 body {
     overflow-x: hidden;
-    h1 { font-size: 2em;}
+    h1 { font-size: 3em;}
+    h2 { font-size: 2em;}
 }
 .wrapper {
     width: 100%;
     @include testing(blue);
     height: 100vh;
     position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     nav {
         position: absolute;
         bottom: 0px;
