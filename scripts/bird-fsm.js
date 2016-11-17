@@ -4,7 +4,7 @@ $(document).ready(function(){
         namespace: "bird",
 		//any local variables and functions you'd like for your state machine
         initialize: function (){
-            keyspressed = {
+            _keyspressed = {
                 'left':false, //a key
                 'right':false //d key
            }
@@ -38,6 +38,7 @@ $(document).ready(function(){
 				//this state will react to left keyup
 				_onEnter: function () {
 					//start animation
+                    //use jquery animate for moving div, and css animation for sprite loops?
 					//after one cycle is complete, check if key is up
 					//if it is, pass the keyup action you've defined
 					//this.handle("release");  
@@ -46,7 +47,7 @@ $(document).ready(function(){
                     this.deferAndTransition("standing");
                 },
                 keyupleft: function() {
-                    if (keyspressed.right) {
+                    if (_keyspressed.right) {
                         this.handle("keydownright");
                     } else {
                         this.transition("standing");
@@ -65,7 +66,7 @@ $(document).ready(function(){
                     this.deferAndTransition("standing");
                 },
                 keyupright: function() {
-                    if (keyspressed.left) {
+                    if (_keyspressed.left) {
                         this.handle("keydownleft");
                     } else {
                         this.transition("standing");
@@ -78,31 +79,31 @@ $(document).ready(function(){
 		},
 		//wrappers to make calls prettier
 		leftdown: function () {
-			if (!keyspressed.left) {
-                keyspressed.left = true;
+			if (!_keyspressed.left) {
+                _keyspressed.left = true;
                 this.handle("keydownleft");
             }
 		},
         leftup: function () {
-            if (keyspressed.left) {
-                keyspressed.left = false;
+            if (_keyspressed.left) {
+                _keyspressed.left = false;
                 this.handle("keyupleft");
             }
         },
 		rightdown: function () {
-			if (!keyspressed.right) {
-                keyspressed.right = true;
+			if (!_keyspressed.right) {
+                _keyspressed.right = true;
                 this.handle("keydownright");
             }
 		},
         rightup: function () {
-            if (keyspressed.right) {
-                keyspressed.right = false;
+            if (_keyspressed.right) {
+                _keyspressed.right = false;
                 this.handle("keyupright");
             }
         }
 	});
-    //console.log(keyspressed);
+    //console.log(_keyspressed);
 	//once the state machine is set up, here's where we'll be using it
 	$(document).keydown(function(e) {
 		e.preventDefault(); 
@@ -125,22 +126,22 @@ $(document).ready(function(){
 	});
 	$(document).keyup(function(e) {
 		e.preventDefault(); 
-    switch(e.which) {
-        //controls for animation
-        
-        case 65: // a (left)
-        //user releases the left key
-        //bird should complete current cycle of animation, then go to standing
-        bird.leftup();
-        break;
-        case 68: // d (right)
-        //user releases the right key
-        //bird should complete current cycle of animation, then go to standing
-        bird.rightup();
-        break;
+        switch(e.which) {
+            //controls for animation
 
-        default: return; 
-    }
+            case 65: // a (left)
+            //user releases the left key
+            //bird should complete current cycle of animation, then go to standing
+            bird.leftup();
+            break;
+            case 68: // d (right)
+            //user releases the right key
+            //bird should complete current cycle of animation, then go to standing
+            bird.rightup();
+            break;
+
+            default: return; 
+        }
     
 	});
 	console.log("starting state is " + bird.state);
@@ -222,7 +223,31 @@ $(document).ready(function(){
     //newposition.y += $(path).parent('svg').offset().top;
     return newposition;
   }
-
+    //add animation function
+    function shuffling(keypressed, $thing){
+        //for shuffling, 2 parts
+        //the css animation
+        //and the jquery animate 
+        $thing.animate({
+            left:"somevalue",
+            top:"somevalue",
+            backgroundPositionX:"somvalue"
+        },{
+            duration:150,
+            specialEasing:{
+                backgroundPositionX:"steps(somenumber)"}
+        }, function(){
+            //callback function
+            //check if key is still pressed
+            //if yes, call recursively
+            if (keypressed) {
+                shuffling(keypressed, type, $thing);
+            } else {
+                //pause animation/ remove listeners?
+                
+            }
+        });
+    }
   $(document).on("keydown", function(e) {
     e.preventDefault(); 
     switch(e.which) {
