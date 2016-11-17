@@ -78,7 +78,7 @@ $(document).ready(function(){
     $('.wrapper > a').on('click', function (e){
         e.preventDefault();
         //$('body').animate({scrollTop: $('main').offset().top - $(window).height()/5}, 1000);
-        $('body').animate({scrollTop: $(document).height()-$(window).height()}, 1000);
+        $('body').animate({scrollTop: $('#line').offset().top}, 500);
     });
     //events for arrow keys
     $(document).keydown(function(e) {
@@ -103,18 +103,6 @@ $(document).ready(function(){
 
             case 40: // down
             break;
-            
-            //controls for animation
-            
-            case 65: // a (left)
-            break;
-            case 68: // d (right)
-            break;
-            case 83: // s (down)
-            break;
-            case 87: // w (up)
-            break;
-
             default: return; // exit this handler for other keys
         }
         e.preventDefault(); // prevent the default action (scroll / move caret)

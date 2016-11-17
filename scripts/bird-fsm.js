@@ -92,15 +92,11 @@ $(document).ready(function(){
     
 	});
 	console.log("starting state is " + bird.state);
+
 	bird.on("transition", function (data){
     console.log("current state is " + data.toState);
 	});
 
-	/* --------------------------------------------
-
-			NOT PART OF STATE MACHINE YET FROM HERE ON
-
-	--------------------------------------------- */
 
 	var $circle = $("#bird"),
 			path = document.getElementById("powerline"),
@@ -197,4 +193,14 @@ $(document).ready(function(){
     
 	});
 
+
+	/* --------------------------------------------
+			     position main nav links on wire
+	--------------------------------------------- */
+	//get links containers
+	var $mainNavLi = $('.main-nav li');
+	$mainNavLi.each(function(){
+
+		$(this).css('top',newton($(this).offset().left, path));
+	});
 });
