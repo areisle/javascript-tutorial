@@ -10,7 +10,8 @@
     <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
+  <script   src="https://code.jquery.com/jquery-3.1.1.js"   integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="   crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/lodash/3.10.1/lodash.min.js"></script>
   <script src="external-sources/machina.js"></script>
   <script src="scripts/bird-fsm.js"></script>
@@ -42,9 +43,9 @@
             <path id="powerline" d="M0.34,0.36C114.9,108.59,451.61,244,606.67.36"/>
           </svg>
           <!-- bird (temp circle #physics) -->
-          <svg id="bird" viewBox="0 0 6 6">
+          <div id="bird" viewBox="0 0 6 6">
             <circle cx="0" cy="0" r="3" fill="red"/>
-          </svg>
+          </div>
         </div>​
     </div>
     <!-- main body, will contain code example and explanation  -->

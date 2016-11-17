@@ -7,6 +7,11 @@ $powerline-height: 300px;
     }
     
 }
+:root {
+    //create super nutty css variables
+    --position-x: 0;
+    --position-y: 0;
+}
 //nest these properly later
 #line{
     position:absolute;
@@ -19,7 +24,12 @@ $powerline-height: 300px;
         top: 0px;
         left: 0px;
         width:  20px;
-        transition: 0.15s;
+        height: 20px;
+        background-image: url("../images/shuffle.png");
+        background-size: auto 100%;
+        background-position: 100% 0%;
+        animation: move 2s infinite steps(3,start);
+        animation-play-state: paused;
     }
     path {
         stroke: steelblue;
@@ -134,6 +144,20 @@ main {
 ::-webkit-scrollbar-thumb {
     background-color: $scroll-thumb;
 }
+
+
+@keyframes move {
+    from { background-position: 0% bottom; }
+    to {background-position: 100% bottom; 
+        top: calc(var(--position-y) * 1px);
+        left: calc(var(--position-x) * 1px);
+    } 
+}
+
+
+
+
+
 
 @keyframes slide-center {
     to {opacity: 1; transform: translate(-50%, 0); }  

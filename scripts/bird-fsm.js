@@ -7,7 +7,8 @@ $(document).ready(function(){
             _keyspressed = {
                 'left':false, //a key
                 'right':false //d key
-           }
+           };
+           _eventWaiting = false;
            //this is also where I think i'll set up my event listeners for the animations
            //also, initialize play-state
         },
@@ -26,6 +27,7 @@ $(document).ready(function(){
 				//this state will react to both left and right keydown
                 _onEnter: function() {
                     //switch to standing animation (if there is one)
+                    _eventWaiting = false;
                 },
 				keydownleft: function() {
                     this.transition("shufflingLeft");
@@ -35,41 +37,81 @@ $(document).ready(function(){
                 }
 			},
 			shufflingLeft: {
-				//this state will react to left keyup
 				_onEnter: function () {
 					//start animation
                     //use jquery animate for moving div, and css animation for sprite loops?
 					//after one cycle is complete, check if key is up
 					//if it is, pass the keyup action you've defined
-					//this.handle("release");  
+					//this.handle("release");
+                    this.handle("animate");
 				},
+                animate: function () {
+                    shuffling($circle, "left");
+                    //console.log(this.inputQueue);
+                    //console.log("eventWaiting: " + _eventWaiting);
+                    if (_eventWaiting) {
+                        //console.log("exited shuffling, eventWaiting: " + _eventWaiting);
+                        this.transition("standing"); 
+                    } else {
+                        //shuffling($circle, "right");
+                        //this.handle("animate");
+                    }
+                },
                 keydownright: function() {
-                    this.deferAndTransition("standing");
+                    //instead of switching directly, emit event and add to queue?
+                    _eventWaiting = true;
+                    //this.clearQueue();
+                    this.deferUntilTransition("standing");
+                    //this.handle("animate");
                 },
                 keyupleft: function() {
+                    console.log("kepupleft");
+                    _eventWaiting = true;
+                    //this.clearQueue();
                     if (_keyspressed.right) {
                         this.handle("keydownright");
                     } else {
-                        this.transition("standing");
+                        this.handle("animate");
                     }
                 },
 			},
+            shuffleLeftInterrupt: {
+
+            },
 			shufflingRight: {
-				//this state will react to right keyup
 				_onEnter: function () {
-					//start animation
-					//after one cycle is complete, check if key is up
-					//if it is, pass the keyup action you've defined
-					//this.handle("release");
-				},
+                    //start animation
+                    //use jquery animate for moving div, and css animation for sprite loops?
+                    //after one cycle is complete, check if key is up
+                    //if it is, pass the keyup action you've defined
+                    //this.handle("release");
+                    this.handle("animate");
+                },
+                animate: function () {
+                    shuffling($circle, "right");
+                    //console.log(this.inputQueue);
+                    //console.log("eventWaiting: " + _eventWaiting);
+                    if (_eventWaiting) {
+                        //console.log("exited shuffling, eventWaiting: " + _eventWaiting);
+                        this.transition("standing"); 
+                    } else {
+                        // shuffling($circle, "right");
+                        this.handle("animate");
+                    }
+                },
                 keydownleft: function() {
-                    this.deferAndTransition("standing");
+                    _eventWaiting = true;
+                    //this.clearQueue();
+                    this.deferUntilTransition("standing");
+                    this.handle("animate");
                 },
                 keyupright: function() {
+                    _eventWaiting = true;
+                    //this.clearQueue();
                     if (_keyspressed.left) {
                         this.handle("keydownleft");
                     } else {
-                        this.transition("standing");
+                        this.handle("animate");
                     }
                 },
                 keyupleft: function () {
@@ -103,25 +145,25 @@ $(document).ready(function(){
             }
         }
 	});
-    //console.log(_keyspressed);
+    
 	//once the state machine is set up, here's where we'll be using it
 	$(document).keydown(function(e) {
 		e.preventDefault(); 
-    switch(e.which) {
-        //controls for animation
-        
-        case 65: // a (left)
-        //this is where we'd like our bird to shuffle left only if he's standing
-        bird.leftdown();
-        
-        break;
-        case 68: // d (right)
-        //this is where we'd like our bird to shuffle right only if he's standing
-        bird.rightdown();
-        break;
+        switch(e.which) {
+            //controls for animation
+            
+            case 65: // a (left)
+            //this is where we'd like our bird to shuffle left only if he's standing
+            bird.leftdown();
+            
+            break;
+            case 68: // d (right)
+            //this is where we'd like our bird to shuffle right only if he's standing
+            bird.rightdown();
+            break;
 
-        default: return; 
-    }
+            default: return; 
+        }
     
 	});
 	$(document).keyup(function(e) {
@@ -142,12 +184,12 @@ $(document).ready(function(){
 
             default: return; 
         }
-    
 	});
+
 	console.log("starting state is " + bird.state);
 
 	bird.on("transition", function (data){
-    console.log(data.toState);
+        console.log(data.toState);
 	});
 
 
@@ -157,117 +199,112 @@ $(document).ready(function(){
   		pathLength = path.getTotalLength();
 
   //given x, find y
-  function newton(x, path) {
-    //use newtons method
-    //pick a starting point
-    //try halfway between x value and total length
-    //since length(x) >= x
-    var scale = $(path).parent('svg').width()/path.getBBox().width;
-     x /= scale;
-    var start = x,
-        end = path.getTotalLength(),
-        testlength,
-        testpoint;
+    function newton(x, path) {
+        //use newtons method
+        //pick a starting point
+        //try halfway between x value and total length
+        //since length(x) >= x
+        var scale = $(path).parent('svg').width()/path.getBBox().width;
+         x /= scale;
+        var start = x,
+            end = path.getTotalLength(),
+            testlength,
+            testpoint;
 
-    //recursive ish part
-    //edge cases: at end of path, at start of path
-    while(true) {
-      //try middle of current bounding region
-      testlength = Math.floor((start + end) / 2);
-      testpoint = path.getPointAtLength(testlength);
-      if (testlength === end || testlength === start) {
-          break;
-      } else if (testpoint.x > x) {
-        //guess was too high
-        end = testlength;
+        //recursive ish part
+        //edge cases: at end of path, at start of path
+        while(true) {
+          //try middle of current bounding region
+          testlength = Math.floor((start + end) / 2);
+          testpoint = path.getPointAtLength(testlength);
+          if (testlength === end || testlength === start) {
+              break;
+          } else if (testpoint.x > x) {
+            //guess was too high
+            end = testlength;
 
-      } else if (testpoint.x < x) {
-        //guess was too low
-        start = testlength;
-      } else {
-        //guess is correct
-        break;
-      }
+          } else if (testpoint.x < x) {
+            //guess was too low
+            start = testlength;
+          } else {
+            //guess is correct
+            break;
+          }
+        }
+        return testpoint.y*scale;
     }
-    return testpoint.y*scale;
-  }
-  //get position to shuffle to
-  function shuffle(x, step, path, direction) {
-    //move set distance (step) in specified direction
-    //parameters:
-    //x: current x position
-    //step: distance to shift
-    //path: curve to move along
-    //direction: which way to move along curve
-    //returns: 
-    //{x,y}: new position on curve
-    var newposition = {};
-    newposition.x = x;
-    //console.log("x is: " + x);
-    if (direction==="left") {
-      //new x value
-      newposition.x -= step;
-      //new y value
-    } else if (direction==="right") {
-      //new x value
-      newposition.x += step;
-      
-    } else {
-      //else throw error?d
-      //add one in later
-      console.log("error!");
-      return;
+    //get position to shuffle to
+    function shuffle(x, step, path, direction) {
+        //move set distance (step) in specified direction
+        //parameters:
+        //x: current x position
+        //step: distance to shift
+        //path: curve to move along
+        //direction: which way to move along curve
+        //returns: 
+        //{x,y}: new position on curve
+        var newposition = {};
+        newposition.x = x;
+        //console.log("x is: " + x);
+        if (direction==="left") {
+          //new x value
+          newposition.x -= step;
+          //new y value
+        } else if (direction==="right") {
+          //new x value
+          newposition.x += step;
+          
+        } else {
+          //else throw error?d
+          //add one in later
+          console.log("error!");
+          return;
+        }
+        newposition.y = newton(newposition.x, path);
+        //newposition.x += $(path).parent('svg').offset().left;
+        //newposition.y += $(path).parent('svg').offset().top;
+        return newposition;
     }
-    newposition.y = newton(newposition.x, path);
-    //newposition.x += $(path).parent('svg').offset().left;
-    //newposition.y += $(path).parent('svg').offset().top;
-    return newposition;
-  }
+
     //add animation function
-    function shuffling(keypressed, $thing){
+    function shuffling($thing, direction){
         //for shuffling, 2 parts
         //the css animation
         //and the jquery animate 
-        $thing.animate({
-            left:"somevalue",
-            top:"somevalue",
-            backgroundPositionX:"somvalue"
-        },{
-            duration:150,
-            specialEasing:{
-                backgroundPositionX:"steps(somenumber)"}
-        }, function(){
-            //callback function
-            //check if key is still pressed
-            //if yes, call recursively
-            if (keypressed) {
-                shuffling(keypressed, type, $thing);
-            } else {
-                //pause animation/ remove listeners?
-                
-            }
+        console.log("shuffling");
+        var position = shuffle($thing.offset().left, $thing.width(), path, direction);
+        //console.log(position);
+        document.documentElement.style.setProperty('--position-x', position.x)
+        document.documentElement.style.setProperty('--position-y', position.y)
+        $thing.css('animation-play-state','running');
+        console.log("play-state: "+ $thing.css('animation-play-state'));
+        $thing.one("webkitAnimationIteration", function() {
+            //calls at start of iteration (except first one, kind of like fence post issue)
+            //console.log("iterated");
+            console.log("eventWaiting: " + _eventWaiting);
+            $thing.css('animation-play-state','paused');
+            $thing.css({'left': position.x, 'top':position.y});
         });
     }
-  $(document).on("keydown", function(e) {
-    e.preventDefault(); 
-    switch(e.which) {
-        //controls for animation
-        
-        case 65: // a (left)
-        //bird shuffles left
-        position = shuffle($circle.offset().left, $circle.width(), path, "left");
-        $circle.css({'left': position.x + "px", 'top': position.y + "px"});
-        break;
-        case 68: // d (right)
-        //bird shuffles right
-        position = shuffle($circle.offset().left, $circle.width(), path, "right");
-        $circle.css({'left': position.x + "px", 'top': position.y + "px"})
-        break;
+ //    $(document).on("keydown", function(e) {
+ //        e.preventDefault(); 
+ //        switch(e.which) {
+ //            //controls for animation
+            
+ //            case 65: // a (left)
+ //            //bird shuffles left
+ //            position = shuffle($circle.offset().left, $circle.width(), path, "left");
+ //            $circle.css({'left': position.x + "px", 'top': position.y + "px"});
+ //            break;
+ //            case 68: // d (right)
+ //            //bird shuffles right
+ //            position = shuffle($circle.offset().left, $circle.width(), path, "right");
+ //            $circle.css({'left': position.x + "px", 'top': position.y + "px"})
+ //            break;
 
-        default: return; 
-    }
-    
-	});
+ //            default: return; 
+ //        }
+	// });
 
 
 	/* --------------------------------------------
@@ -276,7 +313,10 @@ $(document).ready(function(){
 	//get links containers
 	var $mainNavLi = $('.main-nav li');
 	$mainNavLi.each(function(){
-
 		$(this).css('top',newton($(this).offset().left, path));
 	});
+    // $circle.on("webkitAnimationIteration", function() {
+    //     //calls at start of iteration (except first one, kind of like fence post issue)
+    //     console.log("iterated");
+    // });
 });
