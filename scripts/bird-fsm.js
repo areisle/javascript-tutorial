@@ -1,8 +1,17 @@
 $(document).ready(function(){
 	//create a new state machine
 	var bird = new machina.Fsm({
-		//this tells the state machine which state to start in
-		//
+        namespace: "bird",
+		//any local variables and functions you'd like for your state machine
+        initialize: function (){
+            var keyspressed = {
+                'left':false, //a key
+                'right':false //d key
+           }
+           //this is also where I think i'll set up my event listeners for the animations
+           //also, initialize play-state
+        },
+        //this tells the state machine which state to start in
 		initialState: "standing",
 		//this is where you include all the different states you like to have
 		//in this example, this will be the different actions the bird will be doing
@@ -15,8 +24,15 @@ $(document).ready(function(){
 			//_onExit   ---- lets you define actions to take upen exiting a state
 			standing: {
 				//this state will react to both left and right keydown
-				keydownleft: "shufflingLeft",
-				keydownright: "shufflingRight"
+                _onEnter: function() {
+                    //switch to standing animation (if there is one)
+                },
+				keydownleft: function() {
+                    this.transition("shufflingLeft");
+                },
+				keydownright: function() {
+                    this.transition("shufflingRight");
+                }
 			},
 			shufflingLeft: {
 				//this state will react to left keyup
@@ -24,10 +40,18 @@ $(document).ready(function(){
 					//start animation
 					//after one cycle is complete, check if key is up
 					//if it is, pass the keyup action you've defined
-					//this.handle("release");
+					//this.handle("release");  
 				},
-				release: "standing"
-
+                keydownright: function() {
+                    this.deferAndTransition("standing");
+                },
+                keyupleft: function() {
+                    if (keyspressed.right) {
+                        this.handle("keydownright");
+                    } else {
+                        this.transition("standing");
+                    }
+                },
 			},
 			shufflingRight: {
 				//this state will react to right keyup
@@ -37,22 +61,48 @@ $(document).ready(function(){
 					//if it is, pass the keyup action you've defined
 					//this.handle("release");
 				},
-				release: "standing"
-
+                keydownleft: function() {
+                    this.deferAndTransition("standing");
+                },
+                keyupright: function() {
+                    if (keyspressed.left) {
+                        this.handle("keydownleft");
+                    } else {
+                        this.transition("standing");
+                    }
+                },
+                keyupleft: function () {
+                    //do nothing
+                }
 			}
 		},
 		//wrappers to make calls prettier
-		left: function () {
-			this.handle("keydownleft");
+		leftdown: function () {
+			if (!keyspressed.left) {
+                keyspressed.left = true;
+                this.handle("keydownleft");
+            }
 		},
-		right: function () {
-			this.handle("keydownright");
+        leftup: function () {
+            if (keyspressed.left) {
+                keyspressed.left = false;
+                this.handle("keyupleft");
+            }
+        },
+		rightdown: function () {
+			if (!keyspressed.right) {
+                keyspressed.right = true;
+                this.handle("keydownright");
+            }
 		},
-		stop: function () {
-            console.log();
-			this.handle("release");
-		}
+        rightup: function () {
+            if (keyspressed.right) {
+                keyspressed.right = false;
+                this.handle("keyupright");
+            }
+        }
 	});
+    //console.log(keyspressed);
 	//once the state machine is set up, here's where we'll be using it
 	$(document).keydown(function(e) {
 		e.preventDefault(); 
@@ -61,11 +111,12 @@ $(document).ready(function(){
         
         case 65: // a (left)
         //this is where we'd like our bird to shuffle left only if he's standing
-        bird.left();
+        bird.leftdown();
+        
         break;
         case 68: // d (right)
         //this is where we'd like our bird to shuffle right only if he's standing
-        bird.right();
+        bird.rightdown();
         break;
 
         default: return; 
@@ -80,12 +131,12 @@ $(document).ready(function(){
         case 65: // a (left)
         //user releases the left key
         //bird should complete current cycle of animation, then go to standing
-        bird.stop();
+        bird.leftup();
         break;
         case 68: // d (right)
         //user releases the right key
         //bird should complete current cycle of animation, then go to standing
-        bird.stop();
+        bird.rightup();
         break;
 
         default: return; 
@@ -95,7 +146,7 @@ $(document).ready(function(){
 	console.log("starting state is " + bird.state);
 
 	bird.on("transition", function (data){
-    console.log("current state is " + data.toState);
+    console.log(data.toState);
 	});
 
 
@@ -151,7 +202,7 @@ $(document).ready(function(){
     //{x,y}: new position on curve
     var newposition = {};
     newposition.x = x;
-    console.log("x is: " + x);
+    //console.log("x is: " + x);
     if (direction==="left") {
       //new x value
       newposition.x -= step;
@@ -178,13 +229,12 @@ $(document).ready(function(){
         //controls for animation
         
         case 65: // a (left)
-        //this is where we'd like our bird to shuffle left only if he's standing
-        console.log("pressed left");
+        //bird shuffles left
         position = shuffle($circle.offset().left, $circle.width(), path, "left");
         $circle.css({'left': position.x + "px", 'top': position.y + "px"});
         break;
         case 68: // d (right)
-        //this is where we'd like our bird to shuffle right only if he's standing
+        //bird shuffles right
         position = shuffle($circle.offset().left, $circle.width(), path, "right");
         $circle.css({'left': position.x + "px", 'top': position.y + "px"})
         break;
