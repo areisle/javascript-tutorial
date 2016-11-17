@@ -49,6 +49,7 @@ $(document).ready(function(){
 			this.handle("keydownright");
 		},
 		stop: function () {
+            console.log();
 			this.handle("release");
 		}
 	});

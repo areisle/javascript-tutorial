@@ -78,7 +78,7 @@ $(document).ready(function(){
     $('.wrapper > a').on('click', function (e){
         e.preventDefault();
         //$('body').animate({scrollTop: $('main').offset().top - $(window).height()/5}, 1000);
-        $('body').animate({scrollTop: $('#line').offset().top}, 500);
+        $('body').animate({scrollTop: $('.main-nav').offset().top}, 500);
     });
     //events for arrow keys
     $(document).keydown(function(e) {
@@ -87,7 +87,6 @@ $(document).ready(function(){
             case 37: // left
             //switch to previous page
             destination = keys[(sections[origin] -1 + 4)%4];
-            console.log(destination);
             navigate(origin,destination);
             break;
 
@@ -97,7 +96,6 @@ $(document).ready(function(){
             case 39: // right
             //switch to next page
             destination = keys[(sections[origin] +1 + 4)%4];
-            console.log(destination);
             navigate(origin,destination);
             break;
 
