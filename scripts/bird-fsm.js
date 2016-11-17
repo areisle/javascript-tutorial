@@ -4,7 +4,7 @@ $(document).ready(function(){
         namespace: "bird",
 		//any local variables and functions you'd like for your state machine
         initialize: function (){
-            var keyspressed = {
+            keyspressed = {
                 'left':false, //a key
                 'right':false //d key
            }
