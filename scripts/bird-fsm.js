@@ -42,27 +42,23 @@ $(document).ready(function(){
                     //use jquery animate for moving div, and css animation for sprite loops?
 					//after one cycle is complete, check if key is up
 					//if it is, pass the keyup action you've defined
-					//this.handle("release");
-                    this.handle("animate");
-				},
-                animate: function () {
-                    shuffling($circle, "left");
+                    //shuffling($circle, "left");
                     //console.log(this.inputQueue);
                     //console.log("eventWaiting: " + _eventWaiting);
                     if (_eventWaiting) {
                         //console.log("exited shuffling, eventWaiting: " + _eventWaiting);
                         this.transition("standing"); 
                     } else {
-                        //shuffling($circle, "right");
+                        startShuffling($circle, "left");
                         //this.handle("animate");
                     }
-                },
+				},
                 keydownright: function() {
                     //instead of switching directly, emit event and add to queue?
                     _eventWaiting = true;
                     //this.clearQueue();
-                    this.deferUntilTransition("standing");
-                    //this.handle("animate");
+                    this.deferAndTransition("standing");
+                    this.handle("_onEnter");
                 },
                 keyupleft: function() {
                     console.log("kepupleft");
@@ -71,9 +67,12 @@ $(document).ready(function(){
                     if (_keyspressed.right) {
                         this.handle("keydownright");
                     } else {
-                        this.handle("animate");
+                        this.handle("_onEnter");
                     }
                 },
+                _onExit: function (){
+                    stopShuffling($circle, "left");
+                }
 			},
             shuffleLeftInterrupt: {
 
@@ -84,26 +83,21 @@ $(document).ready(function(){
                     //use jquery animate for moving div, and css animation for sprite loops?
                     //after one cycle is complete, check if key is up
                     //if it is, pass the keyup action you've defined
-                    //this.handle("release");
-                    this.handle("animate");
-                },
-                animate: function () {
-                    shuffling($circle, "right");
+                    //shuffling($circle, "right");
                     //console.log(this.inputQueue);
                     //console.log("eventWaiting: " + _eventWaiting);
                     if (_eventWaiting) {
                         //console.log("exited shuffling, eventWaiting: " + _eventWaiting);
                         this.transition("standing"); 
                     } else {
-                        // shuffling($circle, "right");
-                        this.handle("animate");
+                        startShuffling($circle, "right");
+                        //this.handle("animate");
                     }
                 },
                 keydownleft: function() {
                     _eventWaiting = true;
                     //this.clearQueue();
-                    this.deferUntilTransition("standing");
-                    this.handle("animate");
+                    this.deferAndTransition("standing");
                 },
                 keyupright: function() {
                     _eventWaiting = true;
@@ -111,11 +105,15 @@ $(document).ready(function(){
                     if (_keyspressed.left) {
                         this.handle("keydownleft");
                     } else {
-                        this.handle("animate");
+                        this.transition("standing");
                     }
                 },
                 keyupleft: function () {
                     //do nothing
+                },
+                ,
+                _onExit: function (){
+                    stopShuffling($circle, "right");
                 }
 			}
 		},
@@ -266,46 +264,43 @@ $(document).ready(function(){
         return newposition;
     }
 
-    //add animation function
-    function shuffling($thing, direction){
-        //for shuffling, 2 parts
-        //the css animation
-        //and the jquery animate 
+    //start the shuffling animation in the specified direction
+    function startShuffling($thing, direction){
         console.log("shuffling");
-        var position = shuffle($thing.offset().left, $thing.width(), path, direction);
-        //console.log(position);
+        //get next position on curve
+        var position = shuffle($thing.offset().left, 2*$thing.width(), path, direction);
+        //set the css variables
         document.documentElement.style.setProperty('--position-x', position.x)
         document.documentElement.style.setProperty('--position-y', position.y)
         $thing.css('animation-play-state','running');
-        console.log("play-state: "+ $thing.css('animation-play-state'));
-        $thing.one("webkitAnimationIteration", function() {
+        $thing.on("webkitAnimationIteration", function(e) {
+            var animName = e.originalEvent.animationName;
+            console.log(animName);
+            if (animName === "move") {
+               $thing.css({'left': position.x, 'top':position.y}); 
+            }
+            position = shuffle($thing.offset().left, 2*$thing.width(), path, direction);
+            //set the css variables
+            document.documentElement.style.setProperty('--position-x', position.x)
+            document.documentElement.style.setProperty('--position-y', position.y)
+            console.log($thing.offset().left);
+        });
+    }
+
+    function stopShuffling($thing, position){
+        $thing.on("webkitAnimationIteration", function(e) {
+            var animName = e.originalEvent.animationName;
+            console.log(animName);
+            if (animName === "move") {
+               $thing.css({'left': position.x, 'top':position.y}); 
+            }
             //calls at start of iteration (except first one, kind of like fence post issue)
             //console.log("iterated");
             console.log("eventWaiting: " + _eventWaiting);
             $thing.css('animation-play-state','paused');
-            $thing.css({'left': position.x, 'top':position.y});
+            //$thing.css({'left': position.x, 'top':position.y});
         });
     }
- //    $(document).on("keydown", function(e) {
- //        e.preventDefault(); 
- //        switch(e.which) {
- //            //controls for animation
-            
- //            case 65: // a (left)
- //            //bird shuffles left
- //            position = shuffle($circle.offset().left, $circle.width(), path, "left");
- //            $circle.css({'left': position.x + "px", 'top': position.y + "px"});
- //            break;
- //            case 68: // d (right)
- //            //bird shuffles right
- //            position = shuffle($circle.offset().left, $circle.width(), path, "right");
- //            $circle.css({'left': position.x + "px", 'top': position.y + "px"})
- //            break;
-
- //            default: return; 
- //        }
-	// });
-
 
 	/* --------------------------------------------
 			     position main nav links on wire
