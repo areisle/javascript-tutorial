@@ -11,6 +11,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
 	<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
+    <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch|Cinzel+Decorative|Josefin+Sans|Josefin+Slab" rel="stylesheet">
   <script   src="https://code.jquery.com/jquery-3.1.1.js"   integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="   crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/lodash/3.10.1/lodash.min.js"></script>
   <script src="external-sources/machina.js"></script>
@@ -18,6 +19,7 @@
     <script src="external-sources/prism.js"></script>
     <script src="scripts/main.js"></script>
     <link rel="stylesheet" href="external-sources/prism.css">
+    <link href="https://fonts.googleapis.com/css?family=Nixie+One" rel="stylesheet">
 </head>
 <body>
     <!-- wrapper for header and demo animation  -->
@@ -46,17 +48,30 @@
           <div id="bird">
             <!-- <circle cx="0" cy="0" r="3" fill="red"/> -->
           </div>
-        </div>​
+        </div>
     </div>
     <!-- main body, will contain code example and explanation  -->
     <main>
 <!--        <script async src="//jsfiddle.net/areisle/8v3yog37/embed/"></script>-->
 <!--<iframe width="100%" height="300" src="//jsfiddle.net/areisle/8v3yog37/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>-->
         <!-- expanation -->
-        <section id="overview" class="overview active"><h2>Overview</h2></section>
+        <section id="overview" class="overview active">
+            <h2>Overview</h2>
+            <a href="#top">top</a>
+            <p>for more specific information on Machina.js visit ...</p>
+            <blockquote><a>Machina.js</a> is a JavaScript framework for highly customizable finite state machines.</blockquote>
+            <p>In this demo, we'll be using Machina.js to create a finite state machine for the movements of a bird</p>
+            <p>start planning out the state machine by drawing a diagram of how it should behave to different inputs in each state</p>
+            <figure>
+                <img src="images/state-diagram.jpg" alt="diagram of a state machine">
+                <figcaption>diagram for the state machine</figcaption>
+            </figure>
+            <p>for simplicity, we'll only be implementing some of the states, specifically: standing, shuffling left, and shuffling right</p>
+        </section>
         <!-- html -->
         <section id="html" class="html">
             <h2>HTML</h2>
+            <a href="#top">top</a>
             <pre class="language-html">
             <code>
 &lt;body>
@@ -89,6 +104,7 @@
         <!-- css/scss -->
         <section id="scss" class="scss">
             <h2>SCSS</h2>
+            <a href="#top">top</a>
              <pre>
 <code class="language-css">
 $width: 200px;
@@ -194,7 +210,10 @@ body {
                 </pre>
         </section>
         <!-- js/jquery -->
-        <section id="js" class="js"><h2>Javascript</h2></section>
+        <section id="js" class="js">
+            <h2>Javascript</h2>
+            <a href="#top">top</a>
+        </section>
     </main>
 </body>
 </html>

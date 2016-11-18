@@ -1,4 +1,4 @@
-$scroll-thumb: rgba(64,64,64,0.1);
+$scroll-thumb: rgba(112, 136, 110,0.4);
 $testing: false;
 $powerline-height: 300px;
 @mixin testing ($colour:red) {
@@ -13,7 +13,6 @@ $powerline-height: 300px;
     --position-x: 0;
     --position-y: 0;
 }
-//nest these properly later
 #line{
     position:absolute;
     width: 100%;
@@ -38,14 +37,14 @@ $powerline-height: 300px;
         fill: none;
     }
 }
-
-//wrapper for demo and header, and maybe nav (want to have it sitting on wire)
 body {
     overflow-x: hidden;
-    h1 { font-size: 3em;}
-    h2 { font-size: 2em; text-align: center}
-    background-color: #AECFEA;
+    h1 { font-size: 3em; font-family: 'Cinzel Decorative', cursive; max-width: 70vw;}
+    h2 { font-size: 2em; text-align: center; font-family: 'Cabin Sketch', cursive;}
+    background: #BBCD91;
+    p { font-family: 'Nixie One', cursive; line-height: 1.5em; font-size: 1.1em;}
 }
+//contains code demo
 .wrapper {
     width: 100%;
     @include testing(blue);
@@ -55,7 +54,8 @@ body {
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    background: #eee;
+    background-image: url("../images/background.jpg");
+    background-size: 100% auto;
     header {
         h1 { text-align: center}
     }
@@ -103,22 +103,21 @@ main {
         position: absolute;
         top: 0px;
         left: 50%;
-        //transform: translate(-50%, 0);
         transform-origin: center center -35vw;
         opacity: 0;
         transition-property: opacity;
         transition-duration: 2s;
         transition-delay: 1s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         &.scss {
             transform: translate(-50%, 0) rotateY(180deg);
-            //animation: slide-center 1s 3s both;
         }
         &.html {
             transform: translate(-50%, 0) rotateY(90deg);
-            //animation: slide-right 1s 3s both;
         }
         &.overview {
-            //starts with no transform rotation
             transform: translate(-50%, 0) rotateY(0deg);
         }
         &.js {
@@ -138,13 +137,15 @@ main {
         }
     }
 }
+
 //scrollbar stylings
 ::-webkit-scrollbar {
     background: transparent;
-    //background-color: rgba(0,0,0,0);
+    width: 10px;
 }
 ::-webkit-scrollbar-thumb {
     background-color: $scroll-thumb;
+    border-radius: 10px;
 }
 
 @keyframes cycleFrames {

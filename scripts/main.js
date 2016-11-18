@@ -68,6 +68,10 @@ $(document).ready(function(){
         e.preventDefault();
         $('body').animate({scrollTop: $('.main-nav').offset().top}, 500);
     });
+    $('section > a:first-of-type').on('click', function (e){
+        e.preventDefault();
+        $('body').animate({scrollTop: 0}, 500);
+    });
     //events for arrow keys
     $(document).keydown(function(e) {
         var origin = $('section.active').attr('id');
