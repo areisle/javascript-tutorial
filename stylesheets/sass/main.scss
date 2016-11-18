@@ -29,7 +29,7 @@ $powerline-height: 300px;
         background-image: url("../images/shuffle.png");
         background-size: auto 100%;
         background-position: 100% 0%;
-        animation: cycleFrames 1s 5 steps(3,start), move 1s 5 ease-in-out forwards;
+        animation: cycleFrames 1s infinite steps(3,start), move 1s infinite ease-in-out forwards;
         animation-play-state: paused;
     }
     path {
