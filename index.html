@@ -21,7 +21,6 @@
     <link rel="stylesheet" href="external-sources/prism.css">
     <link href="https://fonts.googleapis.com/css?family=Nixie+One" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.13/clipboard.min.js"></script>
 </head>
 <body>
     <!-- wrapper for header and demo animation  -->
@@ -68,6 +67,9 @@
             </blockquote>
             <p>In this demo, I'll be using Machina.js to create a 
                 finite state machine for the movements of a bird</p>
+            <p> You will need to include scripts for both machina and lodash </p>
+            <p> for lodash, use the cdn that is shown in the html section of my code</p>
+            <p> machina doesn't currently have a cdn, but can be downloaded from their <span><a href="https://github.com/ifandelse/machina.js/">github</a></span> </p>
             <p>Start planning out the state machine by drawing a diagram 
                 of how it should behave given different inputs in each state</p>
             <figure>
@@ -87,19 +89,28 @@
             <button onclick="copyToClipboard('html-code')">Copy HTML</button>
             <pre class="language-html" id="html-code">
             <code>
-&lt;!-- wrapper for animation  -->
-&lt;div class="wrapper">
-    &lt;div id="line">
-      &lt;!-- curve for the powerline (this will work with any inline path) -->
-      &lt;svg viewBox="0 0 560 64.06">
-        &lt;path id="powerline" d="M0,31.67C181.33,100.33,418,45.33,560,0"/>
-      &lt;/svg>
-      &lt;!-- bird -->
-      &lt;div id="bird">
-          &lt;div>&lt;/div>
+&lt;head>  
+  &lt;script src="https://cdn.jsdelivr.net/lodash/3.10.1/lodash.min.js">&lt;/script>
+  &lt;script src="https://code.jquery.com/jquery-3.1.1.js" 
+             integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="   
+            crossorigin="anonymous">&lt;/script>
+  &lt;script src="external-sources/machina.js">&lt;/script>
+&lt;/head>          
+&lt;body>
+  &lt;!-- wrapper for animation  -->
+  &lt;div class="wrapper">
+      &lt;div id="line">
+        &lt;!-- curve for the powerline (this will work with any inline path) -->
+        &lt;svg viewBox="0 0 560 64.06">
+          &lt;path id="powerline" d="M0,31.67C181.33,100.33,418,45.33,560,0"/>
+        &lt;/svg>
+        &lt;!-- bird -->
+        &lt;div id="bird">
+            &lt;div>&lt;/div>
+        &lt;/div>
       &lt;/div>
-    &lt;/div>
-&lt;/div>
+  &lt;/div>
+&lt;/body>
             </code>
             </pre>
         </section>
