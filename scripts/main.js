@@ -5,7 +5,7 @@ $(document).ready(function(){
    $('section').each(function() {
      maxHeight = maxHeight > $(this).height() ? maxHeight : $(this).height();
    });
-    $('main').css('height', maxHeight);
+    $('main').css('height', maxHeight + 200 + 'px');
 
     //initialize to starting section
     var sections = {'overview':0,'html':1,'scss':2,'js':3},
@@ -101,9 +101,33 @@ $(document).ready(function(){
         e.preventDefault(); // prevent the default action (scroll / move caret)
     });
 
+    //copy buttons
+    //source: http://stackoverflow.com/questions/22581345/click-button-copy-to-clipboard-using-jquery
+    
 
-
+    console.log($('#scss-code')[0].innerText);
     /* ------ POWERLINE -------*/
     //get coordinates of powerline position, and well and direction of next coordinate?
     //no idea how to do this
 });
+function copyToClipboard(elementId) {
+
+  // Create a "hidden" input
+  var aux = document.createElement("input");
+
+  // Assign it the value of the specified element
+  aux.setAttribute("value", document.getElementById(elementId).innerText);
+
+  // Append it to the body
+  document.body.appendChild(aux);
+
+  // Highlight its content
+  aux.select();
+
+  // Copy the highlighted text
+  document.execCommand("copy");
+
+  // Remove it from the body
+  document.body.removeChild(aux);
+
+}

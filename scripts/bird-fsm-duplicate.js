@@ -1,183 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>javascript tutorial</title>
-	<link rel="stylesheet" href="stylesheets/reset.css">
-	<link rel="icon" href="#">
-	<link rel="stylesheet" href="stylesheets/main.css">
-    <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <![endif]-->
-	<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
-    <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch|Cinzel+Decorative|Josefin+Sans|Josefin+Slab" rel="stylesheet">
-  <script   src="https://code.jquery.com/jquery-3.1.1.js"   integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="   crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/lodash/3.10.1/lodash.min.js"></script>
-  <script src="external-sources/machina.js"></script>
-  <script src="scripts/bird-fsm.js"></script>
-    <script src="external-sources/prism.js"></script>
-    <script src="scripts/main.js"></script>
-    <link rel="stylesheet" href="external-sources/prism.css">
-    <link href="https://fonts.googleapis.com/css?family=Nixie+One" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.13/clipboard.min.js"></script>
-</head>
-<body>
-    <!-- wrapper for header and demo animation  -->
-    <div class="wrapper">
-        <header>
-            <h1>Implementing an FSM in javascript: Machina JS</h1>
-        </header>
-        <!-- links will hopefully be sitting on a wire -->
-        <!-- add in svgs for text later so they can be warped to fit curve -->
-        <span><a href="#main">view code</a></span>
-        <p>use the 'a' and 'd' keys the move the bird!</p>
-        <div id="line">
-          <nav class="main-nav">
-              <ul>
-                  <li><a href="#overview">Overview</a></li>
-                  <li><a href="#html">HTML</a></li>
-                  <li><a href="#scss">SCSS</a></li>
-                  <li><a href="#js">JS</a></li>
-              </ul>
-          </nav>
-          <!-- curve for the powerline (temporary filler one) -->
-          <svg viewBox="0 0 560 64.06">
-            <path id="powerline" d="M0,31.67C181.33,100.33,418,45.33,560,0"/>
-          </svg>
-          <!-- bird -->
-          <div id="bird">
-              <div></div>
-          </div>
-        </div>
-    </div>
-    <!-- main body, will contain code example and explanation  -->
-    <main>
-<!--        <script async src="//jsfiddle.net/areisle/8v3yog37/embed/"></script>-->
-<!--<iframe width="100%" height="300" src="//jsfiddle.net/areisle/8v3yog37/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>-->
-        <!-- expanation -->
-        <section id="overview" class="overview active">
-            <h2>Overview</h2>
-            <span><a href="#top">top</a></span>
-            <button></button>
-            <blockquote>
-            <p>Machina.js is a JavaScript framework for highly customizable finite state machines.</p>
-            <footer>
-            <cite><a href="http://machina-js.org/">machina-js.org</a></cite>
-            </footer>
-            </blockquote>
-            <p>In this demo, I'll be using Machina.js to create a 
-                finite state machine for the movements of a bird</p>
-            <p>Start planning out the state machine by drawing a diagram 
-                of how it should behave given different inputs in each state</p>
-            <figure>
-                <img src="./images/diagram-1.png" alt="diagram of a state machine">
-                <figcaption>diagram for the state machine</figcaption>
-            </figure>
-            <p>for simplicity, I'll only be implementing some of the states, specifically: standing, shuffling left, and shuffling right</p>
-            <figure>
-                <img src="./images/diagram-2.svg" alt="diagram for shuffling and standing">
-                <figcaption>diagram of standing and shuffling states</figcaption>
-            </figure>
-        </section>
-        <!-- html -->
-        <section id="html" class="html">
-            <h2>HTML</h2>
-            <span><a href="#top">top</a></span>
-            <pre class="language-html">
-            <code>
-&lt;!-- wrapper for animation  -->
-&lt;div class="wrapper">
-    &lt;div id="line">
-      &lt;!-- curve for the powerline (this will work with any inline path) -->
-      &lt;svg viewBox="0 0 560 64.06">
-        &lt;path id="powerline" d="M0,31.67C181.33,100.33,418,45.33,560,0"/>
-      &lt;/svg>
-      &lt;!-- bird -->
-      &lt;div id="bird">
-          &lt;div>&lt;/div>
-      &lt;/div>
-    &lt;/div>
-&lt;/div>
-            </code>
-            </pre>
-        </section>
-        <!-- css/scss -->
-        <section id="scss" class="scss">
-            <h2>SCSS</h2>
-            <span><a href="#top">top</a></span>
-            <!-- Trigger -->
-            <button onclick="copyToClipboard('scss-code')">Copy SCSS</button>
-             <pre>
-<code class="language-css" id="scss-code">
-:root {
-  //create super nutty css variables
-  //demo: http://codepen.io/jasesmith/pen/dpwjra
-  --position-x: 0;
-  --position-y: 0;
-  --angle: -7deg;
-  --cycle-state: 'paused';
-}
-#line{
-  position:absolute;
-  width: 100%;
-  top: calc(100% - 17.2vw);
-  height: auto;
-  #bird {
-    position: absolute;
-    top: 45%;
-    left: 0px;
-    width:  8vw;
-    height: 8vw;
-    animation: move 0.5s infinite ease-in-out forwards;
-    animation-play-state: paused;
-    z-index:10;
-    transform-origin: bottom center;
-    transform: rotate(0deg);
-    div {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-image: url("../images/raven.png");
-      background-size: auto 100%;
-      background-position: 0% 0%;
-      animation: cycleFrames 0.5s infinite steps(3,start);
-      animation-play-state: paused;
-      transform: rotate(var(--angle));  
-    }
-  }
-  path {
-    fill: none;
-  }
-}
-
-//contains code demo
-.wrapper {
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  background-image: url("../images/background-grain.jpg");
-  background-size: 100% auto;
-  background-position: center bottom;
-  background-repeat: no-repeat;
-}
-</code>
-                </pre>
-        </section>
-        <!-- js/jquery -->
-        <section id="js" class="js">
-            <h2>Javascript</h2>
-            <span><a href="#top">top</a></span>
-            <pre>
-              <code class="language-js">
-
-/* -----------------------------
-  
-         the state machine
-
-  -----------------------------*/
-
+   
 var $bird = $("#bird"),
     $birdBefore = $('#bird div'),
     path = document.getElementById("powerline");
@@ -185,7 +6,7 @@ var $bird = $("#bird"),
 //create a new state machine
 var bird = new machina.Fsm({
     namespace: "bird",
-  //any local variables and functions you'd like for your state machine
+	//any local variables and functions you'd like for your state machine
     initialize: function (){
         _keyspressed = {
             'left':false, //a key
@@ -197,36 +18,36 @@ var bird = new machina.Fsm({
         //also, initialize play-state
     },
     //this tells the state machine which state to start in
-  initialState: "standing",
-  //this is where you include all the different states you like to have
-  //in this example, this will be the different actions the bird will be doing
-  //standing, shuffling left, and shuffling right
-  states: {
-    //inside each state, you give it which inputs it will handle, and how
-    //the inputs for this example will be the arrow keys (well, actually, aswd)
-    //machina also has builtin events for states you can use
-    // _onEnter ---- lets you define actions to take upon entering a state
-    //_onExit   ---- lets you define actions to take upen exiting a state
-    standing: {
-      //this state will react to both left and right keydown
+	initialState: "standing",
+	//this is where you include all the different states you like to have
+	//in this example, this will be the different actions the bird will be doing
+	//standing, shuffling left, and shuffling right
+	states: {
+		//inside each state, you give it which inputs it will handle, and how
+		//the inputs for this example will be the arrow keys (well, actually, aswd)
+		//machina also has builtin events for states you can use
+		// _onEnter ---- lets you define actions to take upon entering a state
+		//_onExit   ---- lets you define actions to take upen exiting a state
+		standing: {
+			//this state will react to both left and right keydown
             _onEnter: function() {
                 //switch to standing animation (if there is one)
             },
-      keydownleft: function() {
+			keydownleft: function() {
                 this.transition("shufflingLeft");
             },
-      keydownright: function() {
+			keydownright: function() {
                 this.transition("shufflingRight");
             }
-    },
-    shufflingLeft: {
-      _onEnter: function () {
-        //start animation
+		},
+		shufflingLeft: {
+			_onEnter: function () {
+				//start animation
                 //use jquery animate for moving div, and css animation for sprite loops?
-        //after one cycle is complete, check if key is up
-        //if it is, pass the keyup action you've defined
+				//after one cycle is complete, check if key is up
+				//if it is, pass the keyup action you've defined
                 startShuffling($bird, "left");
-      },
+			},
             keydownright: function() {
                 //instead of switching directly, emit event and add to queue?
                 this.deferAndTransition("standing");
@@ -242,12 +63,12 @@ var bird = new machina.Fsm({
             _onExit: function (){
                 stopShuffling($bird, "left");
             }
-    },
+		},
         shuffleLeftInterrupt: {
 
         },
-    shufflingRight: {
-      _onEnter: function () {
+		shufflingRight: {
+			_onEnter: function () {
                 //start animation
                 //use jquery animate for moving div, and css animation for sprite loops?
                 //after one cycle is complete, check if key is up
@@ -269,27 +90,27 @@ var bird = new machina.Fsm({
             _onExit: function (){
                 stopShuffling($bird, "right");
             }
-    }
-  },
-  //wrappers to make calls prettier
-  leftdown: function () {
-    if (!_keyspressed.left) {
+		}
+	},
+	//wrappers to make calls prettier
+	leftdown: function () {
+		if (!_keyspressed.left) {
             _keyspressed.left = true;
             this.handle("keydownleft");
         }
-  },
+	},
     leftup: function () {
         if (_keyspressed.left) {
             _keyspressed.left = false;
             this.handle("keyupleft");
         }
     },
-  rightdown: function () {
-    if (!_keyspressed.right) {
+	rightdown: function () {
+		if (!_keyspressed.right) {
             _keyspressed.right = true;
             this.handle("keydownright");
         }
-  },
+	},
     rightup: function () {
         if (_keyspressed.right) {
             _keyspressed.right = false;
@@ -300,7 +121,7 @@ var bird = new machina.Fsm({
 
 //once the state machine is set up, here's where we'll be using it
 $(document).keydown(function(e) {
-  e.preventDefault(); 
+	e.preventDefault(); 
     switch(e.which) {
         //controls for animation
         
@@ -319,7 +140,7 @@ $(document).keydown(function(e) {
 
 });
 $(document).keyup(function(e) {
-  e.preventDefault(); 
+	e.preventDefault(); 
     switch(e.which) {
         //controls for animation
 
@@ -339,12 +160,6 @@ $(document).keyup(function(e) {
         default: return; 
     }
 });
-
-/* ------------------------------------------------
-  
-      these are all for the animation of the bird
-
-  -------------------------------------------------*/
 
 //given x, find y of given curve
 function newton(x, path) {
@@ -457,9 +272,3 @@ function stopShuffling($thing, position){
         $birdBefore.css('animation-play-state','paused');
     });
 }
-              </code>
-            </pre>
-        </section>
-    </main>
-</body>
-</html>

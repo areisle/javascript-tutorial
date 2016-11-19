@@ -12,9 +12,12 @@ $(document).ready(function(){
             _keyspressed = {
                 'left':false, //a key
                 'right':false //d key
-           };
-           //this is also where I think i'll set up my event listeners for the animations
-           //also, initialize play-state
+            };
+            var initialPosition = newton($(window).width()*0.8, path);
+            $bird.css({'top': (initialPosition -0.9*$bird.width()) + 'px', 'left':($(window).width()*0.8-0.5*$bird.width()) + 'px'}); 
+            console.log($bird.css('left'));
+            //this is also where I think i'll set up my event listeners for the animations
+            //also, initialize play-state
         },
         //this tells the state machine which state to start in
 		initialState: "standing",
@@ -160,10 +163,6 @@ $(document).ready(function(){
         }
 	});
     
-    //initialize the birds position
-    var initialPosition = newton($(window).width()*0.8, path);
-    $bird.css({'top': (initialPosition -0.9*$bird.width()) + 'px', 'left':($(window).width()*0.8-0.5*$bird.width()) + 'px'}); 
-    console.log($bird.css('left'));
     //given x, find y of given curve
     function newton(x, path) {
         //pick a starting point
@@ -226,8 +225,6 @@ $(document).ready(function(){
           return;
         }
         newposition.y = newton(newposition.x, path);
-        //newposition.x += $(path).parent('svg').offset().left;
-        //newposition.y += $(path).parent('svg').offset().top;
         return newposition;
     }
 
@@ -255,7 +252,7 @@ $(document).ready(function(){
             if (animName === "move") {
                $thing.css({'top': position.y -0.9*$thing.width(), 'left':position.x-0.5*$thing.width()}); 
             }
-            //this part is currently broken
+            //sets angle of bird
             opposite = newton($thing.offset().left, path) - newton($thing.offset().left + $thing.width(), path);
             adjacent = $thing.width();
             angle = -1*Math.atan(opposite/adjacent)/Math.PI*180;
