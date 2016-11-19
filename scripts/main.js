@@ -62,6 +62,9 @@ $(document).ready(function(){
         var origin = $('section.active').attr('id'),
             destination = $(this).attr('href').substring(1);
         navigate(origin, destination);
+        if ($('body').scrollTop() < $('.main-nav').offset().top) {
+            $('body').animate({scrollTop: $('.main-nav').offset().top}, 500);
+        }
     });
     //link to navigate to start of sections
     $('.wrapper > span > a').on('click', function (e){

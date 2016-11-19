@@ -31,7 +31,7 @@
         <!-- links will hopefully be sitting on a wire -->
         <!-- add in svgs for text later so they can be warped to fit curve -->
         <span><a href="#main">view code</a></span>
-        
+        <p>use the 'a' and 'd' keys the move the bird!</p>
         <div id="line">
           <nav class="main-nav">
               <ul>
@@ -42,15 +42,12 @@
               </ul>
           </nav>
           <!-- curve for the powerline (temporary filler one) -->
-          <!-- <svg  viewBox="0 0 607.09 137.4">
-            <path  d="M0.34,0.36C114.9,108.59,451.61,244,606.67.36"/>
-          </svg> -->
           <svg viewBox="0 0 560 64.06">
             <path id="powerline" d="M0,31.67C181.33,100.33,418,45.33,560,0"/>
           </svg>
-          <!-- bird (temp circle #physics) -->
+          <!-- bird -->
           <div id="bird">
-            <!-- <circle cx="0" cy="0" r="3" fill="red"/> -->
+              <div></div>
           </div>
         </div>
     </div>
@@ -62,15 +59,25 @@
         <section id="overview" class="overview active">
             <h2>Overview</h2>
             <span><a href="#top">top</a></span>
-            <p>for more specific information on Machina.js visit ...</p>
-            <blockquote><a>Machina.js</a> is a JavaScript framework for highly customizable finite state machines.</blockquote>
-            <p>In this demo, we'll be using Machina.js to create a finite state machine for the movements of a bird</p>
-            <p>start planning out the state machine by drawing a diagram of how it should behave to different inputs in each state</p>
+            <blockquote>
+            <p>Machina.js is a JavaScript framework for highly customizable finite state machines.</p>
+            <footer>
+            <cite><a href="http://machina-js.org/">machina-js.org</a></cite>
+            </footer>
+            </blockquote>
+            <p>In this demo, I'll be using Machina.js to create a 
+                finite state machine for the movements of a bird</p>
+            <p>Start planning out the state machine by drawing a diagram 
+                of how it should behave given different inputs in each state</p>
             <figure>
                 <img alt="diagram of a state machine">
                 <figcaption>diagram for the state machine</figcaption>
             </figure>
-            <p>for simplicity, we'll only be implementing some of the states, specifically: standing, shuffling left, and shuffling right</p>
+            <p>for simplicity, I'll only be implementing some of the states, specifically: standing, shuffling left, and shuffling right</p>
+            <figure>
+                <img alt="diagram for shuffling and standing">
+                <figcaption>diagram of standing and shuffling states</figcaption>
+            </figure>
         </section>
         <!-- html -->
         <section id="html" class="html">
@@ -78,30 +85,19 @@
             <span><a href="#top">top</a></span>
             <pre class="language-html">
             <code>
-&lt;body>
-&lt;div id="parent">
-&lt;div id="scroll">
+&lt;!-- wrapper for animation  -->
+&lt;div class="wrapper">
+    &lt;div id="line">
+      &lt;!-- curve for the powerline (this will work with any inline path) -->
+      &lt;svg viewBox="0 0 560 64.06">
+        &lt;path id="powerline" d="M0,31.67C181.33,100.33,418,45.33,560,0"/>
+      &lt;/svg>
+      &lt;!-- bird -->
+      &lt;div id="bird">
+          &lt;div>&lt;/div>
+      &lt;/div>
+    &lt;/div>
 &lt;/div>
-&lt;div id="outer">
-&lt;div class="prism" id="upper">
-  &lt;div class="front">front&lt;/div>
-  &lt;div class="back">&lt;/div>
-  &lt;div class="top">top&lt;/div>
-  &lt;div class="bottom">bottom&lt;/div>
-  &lt;div class="left">left&lt;/div>
-  &lt;div class="right">right&lt;/div>
-&lt;/div>
-&lt;div class="prism" id="lower">
-  &lt;div class="front">front&lt;/div>
-  &lt;div class="back">&lt;/div>
-  &lt;div class="top">top&lt;/div>
-  &lt;div class="bottom">bottom&lt;/div>
-  &lt;div class="left">left&lt;/div>
-  &lt;div class="right">right&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/body>    
             </code>
             </pre>
         </section>

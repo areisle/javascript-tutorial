@@ -1,5 +1,5 @@
 $scroll-thumb: rgba(112, 136, 110,0.4);
-$testing: true;
+$testing: false;
 $powerline-height: 300px;
 @mixin testing ($colour:red) {
     @if ($testing) {
@@ -7,11 +7,17 @@ $powerline-height: 300px;
     }
     
 }
+%background {
+    
+}
+
 :root {
     //create super nutty css variables
     //demo: http://codepen.io/jasesmith/pen/dpwjra
     --position-x: 0;
     --position-y: 0;
+    --angle: 10deg;
+    --cycle-state: 'paused';
 }
 #line{
     position:absolute;
@@ -27,17 +33,37 @@ $powerline-height: 300px;
         left: 0px;
         width:  8vw;
         height: 8vw;
-        background-image: url("../images/raven.png");
-        background-size: auto 100%;
-        background-position: 100% 0%;
-        animation: cycleFrames 0.5s infinite steps(3,start), move 0.5s infinite ease-in-out forwards;
+        animation: move 0.5s infinite ease-in-out forwards;
         animation-play-state: paused;
         z-index:10;
-        transform: rotate(-10deg);
+        transform-origin: bottom center;
+        transform: rotate(0deg);
+        div {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url("../images/raven.png");
+            background-size: auto 100%;
+            background-position: 0% 0%;
+            animation: cycleFrames 0.5s infinite steps(3,start);
+            animation-play-state: paused;
+            transform: rotate(var(--angle));  
+        }
     }
+    //check it this works tmrw
+//    #bird::before {
+//        content: "";
+//        position: absolute;
+//        width: 100%;
+//        height: 100%;
+//        background-image: url("../images/raven.png");
+//        background-size: auto 100%;
+//        background-position: 0% 0%;
+//        animation: cycleFrames 0.5s infinite steps(3,start);
+//        animation-play-state: var(--cycle-state);
+//        transform: rotate(calc(var(--angle)*1deg));
+//    }
     path {
-        //stroke: steelblue;
-        //stroke-width: 1;
         fill: none;
     }
 }
@@ -47,7 +73,7 @@ body {
     h2 { font-size: 3em; text-align: center; font-family: 'Cabin Sketch', cursive;}
     //background-color: #BBCD91;
     background-image: url('../images/paper-texture-new.jpg');
-    p { font-family: 'Nixie One', cursive; line-height: 1.5em; font-size: 1.1em;}
+    p { font-family: 'Nixie One', cursive; line-height: 1.5em; font-size: 1.1em;text-align: justify;}
     z-index: -10;
     a {font-family: 'Amatic SC', cursive; color: black; font-size: 2em;}
 }
@@ -165,7 +191,6 @@ main {
     position: relative;
     width: 100%;
     @include testing(red);
-    //background-color: bisque;
     transform-style: preserve-3d;
     perspective: 2000px;
     perspective-origin: 50% 0%;
@@ -185,21 +210,11 @@ main {
         display: flex;
         flex-direction: column;
         align-items: center;
-        &.scss {
-            transform: translate(-50%, 0) rotateY(180deg);
-        }
-        &.html {
-            transform: translate(-50%, 0) rotateY(90deg);
-        }
-        &.overview {
-            transform: translate(-50%, 0) rotateY(0deg);
-        }
-        &.js {
-            transform: translate(-50%, 0) rotateY(270deg);
-        }
-        pre {
-            max-height: 80vh;
-        }
+        &.scss { transform: translate(-50%, 0) rotateY(180deg);}
+        &.html { transform: translate(-50%, 0) rotateY(90deg);}
+        &.overview { transform: translate(-50%, 0) rotateY(0deg);}
+        &.js { transform: translate(-50%, 0) rotateY(270deg);}
+        pre { max-height: 80vh;}
         &.active, &.last {
             transition-property: all;
             transition-delay: 0s;
@@ -211,7 +226,26 @@ main {
         }
     }
 }
-
+blockquote {
+    p {
+        text-align: center;
+    }
+    p::before, p::after {
+        content: "\"";
+    }
+    cite {
+        width: 100%;
+        display:block;
+        @include testing;
+        font-style: italic;
+        text-align: right;
+        a {font-family: serif; font-size: 1em;}
+        font-family: serif;
+    }
+    cite::before {
+        content: "-";
+    }
+}
 //scrollbar stylings
 ::-webkit-scrollbar {
     background: transparent;

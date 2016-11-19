@@ -1,4 +1,9 @@
 $(document).ready(function(){
+    
+    var $bird = $("#bird"),
+        $birdBefore = $('#bird div'),
+        path = document.getElementById("powerline");
+    
 	//create a new state machine
 	var bird = new machina.Fsm({
         namespace: "bird",
@@ -40,16 +45,14 @@ $(document).ready(function(){
                     //use jquery animate for moving div, and css animation for sprite loops?
 					//after one cycle is complete, check if key is up
 					//if it is, pass the keyup action you've defined
-                    startShuffling($circle, "left");
+                    startShuffling($bird, "left");
 				},
                 keydownright: function() {
                     //instead of switching directly, emit event and add to queue?
-                    //this.clearQueue();
                     this.deferAndTransition("standing");
                 },
                 keyupleft: function() {
                     console.log("kepupleft");
-                    //this.clearQueue();
                     if (_keyspressed.right) {
                         this.handle("keydownright");
                     } else {
@@ -57,7 +60,7 @@ $(document).ready(function(){
                     }
                 },
                 _onExit: function (){
-                    stopShuffling($circle, "left");
+                    stopShuffling($bird, "left");
                 }
 			},
             shuffleLeftInterrupt: {
@@ -69,7 +72,7 @@ $(document).ready(function(){
                     //use jquery animate for moving div, and css animation for sprite loops?
                     //after one cycle is complete, check if key is up
                     //if it is, pass the keyup action you've defined
-                    startShuffling($circle, "right")
+                    startShuffling($bird, "right")
                 },
                 keydownleft: function() {
                     //this.clearQueue();
@@ -84,7 +87,7 @@ $(document).ready(function(){
                     }
                 },
                 _onExit: function (){
-                    stopShuffling($circle, "right");
+                    stopShuffling($bird, "right");
                 }
 			}
 		},
@@ -122,12 +125,12 @@ $(document).ready(function(){
             //controls for animation
             
             case 65: // a (left)
-            //this is where we'd like our bird to shuffle left only if he's standing
+            //this is where we'd like our bird to shuffle left
             bird.leftdown();
             
             break;
             case 68: // d (right)
-            //this is where we'd like our bird to shuffle right only if he's standing
+            //this is where we'd like our bird to shuffle right
             bird.rightdown();
             break;
 
@@ -142,34 +145,27 @@ $(document).ready(function(){
 
             case 65: // a (left)
             //user releases the left key
-            //bird should complete current cycle of animation, then go to standing
+            //bird should complete current cycle of animation, 
+            //then go to standing then right if right key is down
             bird.leftup();
             break;
             case 68: // d (right)
             //user releases the right key
-            //bird should complete current cycle of animation, then go to standing
+            //bird should complete current cycle of animation, 
+            //then go to standing then left if left key is down
             bird.rightup();
             break;
 
             default: return; 
         }
 	});
-
-	console.log("starting state is " + bird.state);
-
-	bird.on("transition", function (data){
-        console.log(data.toState);
-	});
-
-
-	var $circle = $("#bird"),
-			path = document.getElementById("powerline"),
-  		//get length of powerline
-  		pathLength = path.getTotalLength();
-
-  //given x, find y
+    
+    //initialize the birds position
+    var initialPosition = newton($(window).width()*0.8, path);
+    $bird.css({'top': (initialPosition -0.9*$bird.width()) + 'px', 'left':($(window).width()*0.8-0.5*$bird.width()) + 'px'}); 
+    console.log($bird.css('left'));
+    //given x, find y of given curve
     function newton(x, path) {
-        //use newtons method
         //pick a starting point
         //try halfway between x value and total length
         //since length(x) >= x
@@ -180,7 +176,7 @@ $(document).ready(function(){
             testlength,
             testpoint;
 
-        //recursive ish part
+        //algorithm part
         //edge cases: at end of path, at start of path
         while(true) {
           //try middle of current bounding region
@@ -238,46 +234,55 @@ $(document).ready(function(){
     //start the shuffling animation in the specified direction
     function startShuffling($thing, direction){
         $thing.off("webkitAnimationIteration");
+        $birdBefore.off("webkitAnimationIteration");
         //get next position on curve
         var position = shuffle($thing.offset().left+ 0.5*$thing.width(), 0.5*$thing.width(), path, direction);
-        //set the css variables
-        console.log(position.x - ($thing.offset().left+ 0.5*$thing.width()));
-        console.log(($thing.offset().top+0.9*$thing.width()-$('#line').offset().top) - position.y);
+        //find the slope of the curve at the birds current position
         var angle, opposite, adjacent;
-        opposite = position.y - ($thing.offset().top+0.9*$thing.width()-$('#line').offset().top);
-        adjacent = position.x - ($thing.offset().left+ 0.5*$thing.width());
-        angle = Math.floor(Math.atan(opposite/adjacent)/Math.PI*180);
-        console.log(angle);
-        $thing.css('transform','rotate(' + angle + 'deg)');
-        console.log("position.y: "+ position.y);
-        console.log("offset: "+ ($thing.offset().top+0.9*$thing.width()-$('#line').offset().top));
+        opposite = newton($thing.offset().left, path) - newton($thing.offset().left + $thing.width(), path);
+        adjacent = $thing.width();
+        angle = -1*Math.atan(opposite/adjacent)/Math.PI*180;
+        //set the css variables
         document.documentElement.style.setProperty('--position-x', position.x-0.5*$thing.width())
         document.documentElement.style.setProperty('--position-y', position.y - 0.9*$thing.width())
-        //start the animation
+        document.documentElement.style.setProperty('--angle', angle + 'deg');
+        //start the animations
         $thing.css('animation-play-state','running');
+        $birdBefore.css('animation-play-state','running');
+        //get and set next animation end points after an iteration
         $thing.on("webkitAnimationIteration", function(e) {
             var animName = e.originalEvent.animationName;
             if (animName === "move") {
                $thing.css({'top': position.y -0.9*$thing.width(), 'left':position.x-0.5*$thing.width()}); 
             }
+            //this part is currently broken
+            opposite = newton($thing.offset().left, path) - newton($thing.offset().left + $thing.width(), path);
+            adjacent = $thing.width();
+            angle = -1*Math.atan(opposite/adjacent)/Math.PI*180;
             position = shuffle($thing.offset().left+0.5*$thing.width(), 0.5*$thing.width(), path, direction);
             //set the css variables
             document.documentElement.style.setProperty('--position-x', position.x-0.5*$thing.width());
             document.documentElement.style.setProperty('--position-y', position.y - 0.9*$thing.width());
+            document.documentElement.style.setProperty('--angle', angle + 'deg');
         });
     }
-
+    
+    //turns off the animations after they've completed their current iteration
     function stopShuffling($thing, position){
+        //calls at start of iteration (except first one, kind of like fence post issue)
         $thing.on("webkitAnimationIteration", function(e) {
             var animName = e.originalEvent.animationName;
             if (animName === "move") {
                $thing.css({'top': position.y - 0.9*$thing.width(), 'left':position.x-0.5*$thing.width()});  
             }
-            //calls at start of iteration (except first one, kind of like fence post issue)
             $thing.css('animation-play-state','paused');
+        });
+        $birdBefore.on("webkitAnimationIteration", function(e) {
+            $birdBefore.css('animation-play-state','paused');
         });
     }
 
+    
 	/* --------------------------------------------
 			     position main nav links on wire
 	--------------------------------------------- */
@@ -286,8 +291,4 @@ $(document).ready(function(){
 	$mainNavLi.each(function(){
 		$(this).css('top',newton($(this).offset().left, path) - $(window).width()/100);
 	});
-    // $circle.on("webkitAnimationIteration", function() {
-    //     //calls at start of iteration (except first one, kind of like fence post issue)
-    //     console.log("iterated");
-    // });
 });
