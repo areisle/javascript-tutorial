@@ -1,5 +1,5 @@
 $scroll-thumb: rgba(112, 136, 110,0.4);
-$testing: false;
+$testing: true;
 $powerline-height: 300px;
 @mixin testing ($colour:red) {
     @if ($testing) {
@@ -16,33 +16,64 @@ $powerline-height: 300px;
 #line{
     position:absolute;
     width: 100%;
-    bottom: 0px;
+    //100vw * (360/560)
+    top: calc(100% - 17.2vw);
     // margin: 20px 0;
     height: auto;
     #bird {
+        @include testing(purple);
         position: absolute;
-        top: 0px;
+        top: 45%;
         left: 0px;
-        width:  20px;
-        height: 20px;
-        background-image: url("../images/shuffle.png");
+        width:  8vw;
+        height: 8vw;
+        background-image: url("../images/raven.png");
         background-size: auto 100%;
         background-position: 100% 0%;
-        animation: cycleFrames 1s infinite steps(3,start), move 1s infinite ease-in-out forwards;
+        animation: cycleFrames 0.5s infinite steps(3,start), move 0.5s infinite ease-in-out forwards;
         animation-play-state: paused;
+        z-index:10;
+        transform: rotate(-10deg);
     }
     path {
-        stroke: steelblue;
-        stroke-width: 1;
+        //stroke: steelblue;
+        //stroke-width: 1;
         fill: none;
     }
 }
 body {
     overflow-x: hidden;
     h1 { font-size: 3em; font-family: 'Cinzel Decorative', cursive; max-width: 70vw;}
-    h2 { font-size: 2em; text-align: center; font-family: 'Cabin Sketch', cursive;}
-    background: #BBCD91;
+    h2 { font-size: 3em; text-align: center; font-family: 'Cabin Sketch', cursive;}
+    //background-color: #BBCD91;
+    background-image: url('../images/paper-texture-new.jpg');
     p { font-family: 'Nixie One', cursive; line-height: 1.5em; font-size: 1.1em;}
+    z-index: -10;
+    a {font-family: 'Amatic SC', cursive; color: black; font-size: 2em;}
+}
+span {
+    a:hover {
+        color: #23ACE2;
+        transition: 0.3;
+    }
+    &:hover::before {
+        opacity: 1;
+    }
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0; 
+        left: 0;
+        width: 100%; 
+        height: 100%;  
+        opacity: 0; 
+        z-index: -1;
+        background: url("../images/clouds.png");
+        background-size: contain;
+        background-position: center top;
+        background-repeat: no-repeat;
+        transition: 0.3s;
+    }
 }
 //contains code demo
 .wrapper {
@@ -54,8 +85,10 @@ body {
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    background-image: url("../images/background.jpg");
+    background-image: url("../images/background-grain.jpg");
     background-size: 100% auto;
+    background-position: center bottom;
+    background-repeat: no-repeat;
     header {
         h1 { text-align: center}
     }
@@ -64,32 +97,71 @@ body {
     position: absolute;
     bottom: 2em;
     min-width: 500px;
+    width: 40%;
     height: 100%;
     margin-left: 2%;
     ul {
         display: flex; 
         width:100%;
         height: 100%;
+        justify-content: space-between;
         @include testing(orange);
+        //background-image: url("../images/links-background.svg");
         li {
-            width: 25%;
+            width: 20%;
+            max-width: 140px;
             position: relative;
             @include testing(black);
+            
+            z-index: 1;
             a {
                 display: block;
                 width: 100%;
                 height: 100%;
                 @include testing(pink);
-                font-size: 1.5em;
+                font-size: 3em;
+                text-indent: -999px;
+                overflow: hidden;
+                background-repeat: no-repeat;
+                background-size: 90%;
+                -webkit-filter: brightness(0);
+                filter: brightness(0);
             }
-            a:hover {
-                color: red;
+            &:hover a {
+                -webkit-filter: brightness(1.5);
+                filter: brightness(1.5);
+                transition: 0.3s;
+            }
+            &:hover::before {
+                opacity: 1;
+            }
+            &::before {
+                content: "";
+                position: absolute;
+                top: 0; 
+                left: 0;
+                width: 100%; 
+                height: 100%;  
+                opacity: 0; 
+                z-index: -1;
+                background: url("../images/clouds.png");
+                background-size: 100%;
+                background-repeat: no-repeat;
+                transition: 0.3s;
             }
         }
+        li:nth-child(1), li:nth-child(4) {width: 30%;}
+        li:nth-child(1) a, li:nth-child(4) a { max-width: 200px; background-size:100%;}
+        li:nth-child(2) a, li:nth-child(3) a {background-size: 50%; max-width: 140px;}
+        li:nth-child(1) a {background-image: url("../images/link-overview.svg");}
+        li:nth-child(2) a {background-image: url("../images/link-html.svg");}
+        li:nth-child(3) a {background-image: url("../images/link-scss.svg");}
+        li:nth-child(4) a {background-image: url("../images/link-js.svg");}
     }
 }
 //contains all code examples
 main {
+    margin-top: 30px;
     position: relative;
     width: 100%;
     @include testing(red);
@@ -99,7 +171,9 @@ main {
     perspective-origin: 50% 0%;
     min-height: 80vh;
     section {
-        //@include testing(green);
+        @include testing(green);
+        min-width: 500px;
+        min-height: 500px;
         position: absolute;
         top: 0px;
         left: 50%;

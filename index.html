@@ -20,6 +20,7 @@
     <script src="scripts/main.js"></script>
     <link rel="stylesheet" href="external-sources/prism.css">
     <link href="https://fonts.googleapis.com/css?family=Nixie+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
 </head>
 <body>
     <!-- wrapper for header and demo animation  -->
@@ -29,7 +30,7 @@
         </header>
         <!-- links will hopefully be sitting on a wire -->
         <!-- add in svgs for text later so they can be warped to fit curve -->
-        <a href="#main">view code</a>
+        <span><a href="#main">view code</a></span>
         
         <div id="line">
           <nav class="main-nav">
@@ -41,8 +42,11 @@
               </ul>
           </nav>
           <!-- curve for the powerline (temporary filler one) -->
-          <svg  viewBox="0 0 607.09 137.4">
-            <path id="powerline" d="M0.34,0.36C114.9,108.59,451.61,244,606.67.36"/>
+          <!-- <svg  viewBox="0 0 607.09 137.4">
+            <path  d="M0.34,0.36C114.9,108.59,451.61,244,606.67.36"/>
+          </svg> -->
+          <svg viewBox="0 0 560 64.06">
+            <path id="powerline" d="M0,31.67C181.33,100.33,418,45.33,560,0"/>
           </svg>
           <!-- bird (temp circle #physics) -->
           <div id="bird">
@@ -57,13 +61,13 @@
         <!-- expanation -->
         <section id="overview" class="overview active">
             <h2>Overview</h2>
-            <a href="#top">top</a>
+            <span><a href="#top">top</a></span>
             <p>for more specific information on Machina.js visit ...</p>
             <blockquote><a>Machina.js</a> is a JavaScript framework for highly customizable finite state machines.</blockquote>
             <p>In this demo, we'll be using Machina.js to create a finite state machine for the movements of a bird</p>
             <p>start planning out the state machine by drawing a diagram of how it should behave to different inputs in each state</p>
             <figure>
-                <img src="images/state-diagram.jpg" alt="diagram of a state machine">
+                <img alt="diagram of a state machine">
                 <figcaption>diagram for the state machine</figcaption>
             </figure>
             <p>for simplicity, we'll only be implementing some of the states, specifically: standing, shuffling left, and shuffling right</p>
@@ -71,7 +75,7 @@
         <!-- html -->
         <section id="html" class="html">
             <h2>HTML</h2>
-            <a href="#top">top</a>
+            <span><a href="#top">top</a></span>
             <pre class="language-html">
             <code>
 &lt;body>
@@ -104,7 +108,7 @@
         <!-- css/scss -->
         <section id="scss" class="scss">
             <h2>SCSS</h2>
-            <a href="#top">top</a>
+            <span><a href="#top">top</a></span>
              <pre>
 <code class="language-css">
 $width: 200px;
@@ -212,7 +216,7 @@ body {
         <!-- js/jquery -->
         <section id="js" class="js">
             <h2>Javascript</h2>
-            <a href="#top">top</a>
+            <span><a href="#top">top</a></span>
         </section>
     </main>
 </body>

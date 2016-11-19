@@ -239,21 +239,31 @@ $(document).ready(function(){
     function startShuffling($thing, direction){
         $thing.off("webkitAnimationIteration");
         //get next position on curve
-        var position = shuffle($thing.offset().left, 2*$thing.width(), path, direction);
+        var position = shuffle($thing.offset().left+ 0.5*$thing.width(), 0.5*$thing.width(), path, direction);
         //set the css variables
-        document.documentElement.style.setProperty('--position-x', position.x)
-        document.documentElement.style.setProperty('--position-y', position.y)
+        console.log(position.x - ($thing.offset().left+ 0.5*$thing.width()));
+        console.log(($thing.offset().top+0.9*$thing.width()-$('#line').offset().top) - position.y);
+        var angle, opposite, adjacent;
+        opposite = position.y - ($thing.offset().top+0.9*$thing.width()-$('#line').offset().top);
+        adjacent = position.x - ($thing.offset().left+ 0.5*$thing.width());
+        angle = Math.floor(Math.atan(opposite/adjacent)/Math.PI*180);
+        console.log(angle);
+        $thing.css('transform','rotate(' + angle + 'deg)');
+        console.log("position.y: "+ position.y);
+        console.log("offset: "+ ($thing.offset().top+0.9*$thing.width()-$('#line').offset().top));
+        document.documentElement.style.setProperty('--position-x', position.x-0.5*$thing.width())
+        document.documentElement.style.setProperty('--position-y', position.y - 0.9*$thing.width())
         //start the animation
         $thing.css('animation-play-state','running');
         $thing.on("webkitAnimationIteration", function(e) {
             var animName = e.originalEvent.animationName;
             if (animName === "move") {
-               $thing.css({'left': position.x, 'top':position.y}); 
+               $thing.css({'top': position.y -0.9*$thing.width(), 'left':position.x-0.5*$thing.width()}); 
             }
-            position = shuffle($thing.offset().left, 2*$thing.width(), path, direction);
+            position = shuffle($thing.offset().left+0.5*$thing.width(), 0.5*$thing.width(), path, direction);
             //set the css variables
-            document.documentElement.style.setProperty('--position-x', position.x)
-            document.documentElement.style.setProperty('--position-y', position.y)
+            document.documentElement.style.setProperty('--position-x', position.x-0.5*$thing.width());
+            document.documentElement.style.setProperty('--position-y', position.y - 0.9*$thing.width());
         });
     }
 
@@ -261,7 +271,7 @@ $(document).ready(function(){
         $thing.on("webkitAnimationIteration", function(e) {
             var animName = e.originalEvent.animationName;
             if (animName === "move") {
-               $thing.css({'left': position.x, 'top':position.y}); 
+               $thing.css({'top': position.y - 0.9*$thing.width(), 'left':position.x-0.5*$thing.width()});  
             }
             //calls at start of iteration (except first one, kind of like fence post issue)
             $thing.css('animation-play-state','paused');
@@ -274,7 +284,7 @@ $(document).ready(function(){
 	//get links containers
 	var $mainNavLi = $('.main-nav li');
 	$mainNavLi.each(function(){
-		$(this).css('top',newton($(this).offset().left, path));
+		$(this).css('top',newton($(this).offset().left, path) - $(window).width()/100);
 	});
     // $circle.on("webkitAnimationIteration", function() {
     //     //calls at start of iteration (except first one, kind of like fence post issue)

@@ -64,11 +64,11 @@ $(document).ready(function(){
         navigate(origin, destination);
     });
     //link to navigate to start of sections
-    $('.wrapper > a').on('click', function (e){
+    $('.wrapper > span > a').on('click', function (e){
         e.preventDefault();
         $('body').animate({scrollTop: $('.main-nav').offset().top}, 500);
     });
-    $('section > a:first-of-type').on('click', function (e){
+    $('section > span > a:first-of-type').on('click', function (e){
         e.preventDefault();
         $('body').animate({scrollTop: 0}, 500);
     });
