@@ -33,7 +33,7 @@ $powerline-height: 300px;
         left: 0px;
         width:  8vw;
         height: 8vw;
-        animation: move 0.5s infinite ease-in-out forwards;
+        animation: move 0.6s infinite ease-in-out forwards;
         animation-play-state: paused;
         z-index:10;
         transform-origin: bottom center;
@@ -45,7 +45,7 @@ $powerline-height: 300px;
             background-image: url("../images/raven.png");
             background-size: auto 100%;
             background-position: 0% 0%;
-            animation: cycleFrames 0.5s infinite steps(3,start);
+            animation: cycleFrames 0.6s infinite steps(3,start);
             animation-play-state: paused;
             transform: rotate(var(--angle));  
         }
@@ -58,7 +58,7 @@ body {
     overflow-x: hidden;
     h1 { font-size: 3em; font-family: 'Cinzel Decorative', cursive; max-width: 70vw;}
     h2 { font-size: 3em; text-align: center; font-family: 'Cabin Sketch', cursive;}
-    background-image: url('../images/paper-texture-new.jpg');
+    background-image: url('../images/paper-texture.jpg');
     p { font-family: 'Nixie One', cursive; line-height: 1.5em; font-size: 1.1em;text-align: justify;}
     z-index: -10;
     a {font-family: 'Amatic SC', cursive; color: black; font-size: 2em;}
@@ -173,7 +173,25 @@ span {
 }
 //copy buttons
 button {
-    padding: 50px;
+    padding: 10px;
+    margin: 10px;
+    height: 30px;
+    background: #759C44;
+    border: none;
+    outline: none;
+    color: white;
+    border-radius: 30px;
+    line-height: 10px;
+    &:hover {
+        color: #183B26;
+        -webkit-filter: brightness(1.2);
+        filter: brightness(1.2);
+    }
+    &:focus, &:active {
+        -webkit-filter: brightness(1.5);
+        filter: brightness(1.5);
+        color: #183B26;
+    }
 }
 //contains all code examples
 main {

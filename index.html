@@ -60,7 +60,6 @@
         <section id="overview" class="overview active">
             <h2>Overview</h2>
             <span><a href="#top">top</a></span>
-            <button></button>
             <blockquote>
             <p>Machina.js is a JavaScript framework for highly customizable finite state machines.</p>
             <footer>
@@ -85,7 +84,8 @@
         <section id="html" class="html">
             <h2>HTML</h2>
             <span><a href="#top">top</a></span>
-            <pre class="language-html">
+            <button onclick="copyToClipboard('html-code')">Copy HTML</button>
+            <pre class="language-html" id="html-code">
             <code>
 &lt;!-- wrapper for animation  -->
 &lt;div class="wrapper">
@@ -107,7 +107,6 @@
         <section id="scss" class="scss">
             <h2>SCSS</h2>
             <span><a href="#top">top</a></span>
-            <!-- Trigger -->
             <button onclick="copyToClipboard('scss-code')">Copy SCSS</button>
              <pre>
 <code class="language-css" id="scss-code">
@@ -169,8 +168,9 @@
         <section id="js" class="js">
             <h2>Javascript</h2>
             <span><a href="#top">top</a></span>
+            <button onclick="copyToClipboard('js-code')">Copy JS</button>
             <pre>
-              <code class="language-js">
+              <code class="language-js" id="js-code">
 
 /* -----------------------------
   
