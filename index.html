@@ -10,17 +10,20 @@
     <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
-	<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
-    <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch|Cinzel+Decorative|Josefin+Sans|Josefin+Slab" rel="stylesheet">
-  <script   src="https://code.jquery.com/jquery-3.1.1.js"   integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="   crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/lodash/3.10.1/lodash.min.js"></script>
-  <script src="external-sources/machina.js"></script>
-  <script src="scripts/bird-fsm.js"></script>
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Cabin+Sketch|Cinzel+Decorative|Josefin+Sans|Josefin+Slab|Nixie+One" rel="stylesheet">
+    <!-- jQuery cdn -->
+    <script src="https://code.jquery.com/jquery-3.1.1.js"
+          integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" 
+          crossorigin="anonymous"></script>
+    <!-- lodash cdn (this had to be a particular version as the newest one didn't work with the machina library) -->
+    <script src="https://cdn.jsdelivr.net/lodash/3.10.1/lodash.min.js"></script>
+    <!-- Machina library -->
+    <script src="external-sources/machina.js"></script>
+    <script src="scripts/bird-fsm.js"></script>
     <script src="external-sources/prism.js"></script>
     <script src="scripts/main.js"></script>
     <link rel="stylesheet" href="external-sources/prism.css">
-    <link href="https://fonts.googleapis.com/css?family=Nixie+One" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
 </head>
 <body>
     <!-- wrapper for header and demo animation  -->
@@ -46,15 +49,13 @@
             <path id="powerline" d="M0,31.67C181.33,100.33,418,45.33,560,0"/>
           </svg>
           <!-- bird -->
-          <div id="bird">
+          <figure id="bird">
               <div></div>
-          </div>
+          </figure>
         </div>
     </div>
     <!-- main body, will contain code example and explanation  -->
     <main>
-<!--        <script async src="//jsfiddle.net/areisle/8v3yog37/embed/"></script>-->
-<!--<iframe width="100%" height="300" src="//jsfiddle.net/areisle/8v3yog37/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>-->
         <!-- expanation -->
         <section id="overview" class="overview active">
             <h2>Overview</h2>

@@ -1,6 +1,6 @@
 $scroll-thumb: rgba(112, 136, 110,0.4);
 $testing: false;
-$powerline-height: 300px;
+
 @mixin testing ($colour:red) {
     @if ($testing) {
         border: 3px solid $colour;
@@ -22,29 +22,40 @@ $powerline-height: 300px;
 #line{
     position:absolute;
     width: 100%;
-    //100vw * (360/560)
+    //100vw * (360/560) = 17.2w
     top: calc(100% - 17.2vw);
-    // margin: 20px 0;
     height: auto;
+    left: 0;
     #bird {
         @include testing(purple);
+        /* positioning */
         position: absolute;
         top: 45%;
         left: 0px;
-        width:  8vw;
-        height: 8vw;
-        animation: move 0.6s infinite ease-in-out forwards;
-        animation-play-state: paused;
         z-index:10;
         transform-origin: bottom center;
         transform: rotate(0deg);
+        
+        /* Box-model */
+        width:  8vw;
+        height: 8vw;
+        
+        animation: move 0.6s infinite ease-in-out forwards;
+        animation-play-state: paused;
+        
         div {
+            /* positioning */
             position: absolute;
+            
+            /* Box-model */
             width: 100%;
             height: 100%;
+            
+            /* Visual */
             background-image: url("../images/raven.png");
             background-size: auto 100%;
             background-position: 0% 0%;
+            
             animation: cycleFrames 0.6s infinite steps(3,start);
             animation-play-state: paused;
             transform: rotate(var(--angle));  
@@ -55,12 +66,13 @@ $powerline-height: 300px;
     }
 }
 body {
-    overflow-x: hidden;
-    h1 { font-size: 3em; font-family: 'Cinzel Decorative', cursive; max-width: 70vw;}
-    h2 { font-size: 3em; text-align: center; font-family: 'Cabin Sketch', cursive;}
-    background-image: url('../images/paper-texture.jpg');
-    p { font-family: 'Nixie One', cursive; line-height: 1.5em; font-size: 1.1em;text-align: justify;}
     z-index: -10;
+    overflow-x: hidden;
+    background-image: url('../images/paper-texture.jpg');
+    
+    h1 { font-size: 3em; font-family: 'Cinzel Decorative', cursive; max-width: 70vw;text-align: center;}
+    h2 { font-size: 3em; text-align: center; font-family: 'Cabin Sketch', cursive;}
+    p { font-family: 'Nixie One', cursive; line-height: 1.5em; font-size: 1.1em;text-align: justify;}
     a {font-family: 'Amatic SC', cursive; color: black; font-size: 2em;}
 }
 span {
@@ -73,45 +85,51 @@ span {
     }
     &::before {
         content: "";
+        
         position: absolute;
         top: 0; 
         left: 0;
+        z-index: -1;
+        
         width: 100%; 
         height: 100%;  
-        opacity: 0; 
-        z-index: -1;
+        
         background: url("../images/clouds.png");
         background-size: contain;
         background-position: center top;
         background-repeat: no-repeat;
         transition: 0.3s;
+        opacity: 0; 
     }
 }
+
 //contains code demo
 .wrapper {
-    width: 100%;
     @include testing(blue);
-    height: 100vh;
+    
     position: relative;
+    width: 100%;
+    height: 100vh;
+    
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    
     background-image: url("../images/background-grain.jpg");
     background-size: 100% auto;
     background-position: center bottom;
     background-repeat: no-repeat;
-    header {
-        h1 { text-align: center}
-    }
 }
+
 .main-nav {
     position: absolute;
     bottom: 2em;
-    min-width: 500px;
+    
     width: 40%;
     height: 100%;
     margin-left: 2%;
+    
     ul {
         display: flex; 
         width:100%;
@@ -120,9 +138,11 @@ span {
         @include testing(orange);
         //background-image: url("../images/links-background.svg");
         li {
+            position: relative;
+            
             width: 20%;
             max-width: 140px;
-            position: relative;
+            
             @include testing(black);
             
             z-index: 1;
@@ -131,17 +151,19 @@ span {
                 width: 100%;
                 height: 100%;
                 @include testing(pink);
+                
                 font-size: 3em;
                 text-indent: -999px;
                 overflow: hidden;
+                
                 background-repeat: no-repeat;
                 background-size: 90%;
                 -webkit-filter: brightness(0);
-                filter: brightness(0);
+                        filter: brightness(0);
             }
             &:hover a {
                 -webkit-filter: brightness(1.5);
-                filter: brightness(1.5);
+                        filter: brightness(1.5);
                 transition: 0.3s;
             }
             &:hover::before {
@@ -149,17 +171,20 @@ span {
             }
             &::before {
                 content: "";
+                
                 position: absolute;
                 top: 0; 
                 left: 0;
+                z-index: -1;
+                
                 width: 100%; 
                 height: 100%;  
-                opacity: 0; 
-                z-index: -1;
+                
                 background: url("../images/clouds.png");
                 background-size: 100%;
                 background-repeat: no-repeat;
                 transition: 0.3s;
+                opacity: 0; 
             }
         }
         li:nth-child(1), li:nth-child(4) {width: 30%;}
@@ -176,52 +201,62 @@ button {
     padding: 10px;
     margin: 10px;
     height: 30px;
+    
+    color: white;
+    line-height: 10px;
+    
     background: #759C44;
     border: none;
     outline: none;
-    color: white;
     border-radius: 30px;
-    line-height: 10px;
+    
     &:hover {
         color: #183B26;
         -webkit-filter: brightness(1.2);
-        filter: brightness(1.2);
+                filter: brightness(1.2);
     }
     &:focus, &:active {
-        -webkit-filter: brightness(1.5);
-        filter: brightness(1.5);
         color: #183B26;
+        -webkit-filter: brightness(1.5);
+                filter: brightness(1.5);
     }
 }
 //contains all code examples
 main {
-    margin-top: 30px;
     position: relative;
-    width: 100%;
-    @include testing(red);
     transform-style: preserve-3d;
     perspective: 2000px;
     perspective-origin: 50% 0%;
+    
+    margin-top: 30px;
+    width: 100%;
     min-height: 80vh;
+    
+    @include testing(red);
+    
     section {
-        @include testing(green);
-        min-width: 500px;
-        min-height: 500px;
         position: absolute;
         top: 0px;
         left: 50%;
         transform-origin: center center -35vw;
-        opacity: 0;
+        
+        @include testing(green);
+        display: flex;
+        min-width: 500px;
+        min-height: 500px;
+        flex-direction: column;
+        align-items: center;
+        
         transition-property: opacity;
         transition-duration: 2s;
         transition-delay: 1s;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        &.scss { transform: translate(-50%, 0) rotateY(180deg);}
-        &.html { transform: translate(-50%, 0) rotateY(90deg);}
-        &.overview { transform: translate(-50%, 0) rotateY(0deg);}
-        &.js { transform: translate(-50%, 0) rotateY(270deg);}
+        
+        opacity: 0;
+        
+        &.scss {     transform: translate(-50%, 0) rotateY(180deg);}
+        &.html {     transform: translate(-50%, 0) rotateY(90deg); }
+        &.overview { transform: translate(-50%, 0) rotateY(0deg);  }
+        &.js {       transform: translate(-50%, 0) rotateY(270deg);}
         pre { max-height: 80vh;}
         &.active {
             z-index: 100;
@@ -237,12 +272,6 @@ main {
         }
     }
 }
-//this didn't work :(
-pre {
-    * {
-        -webkit-user-select: all;
-    }
-}
 
 blockquote {
     p {
@@ -252,13 +281,17 @@ blockquote {
         content: "\"";
     }
     cite {
-        width: 100%;
         display:block;
+        
+        width: 100%;
+        
         @include testing;
         font-style: italic;
         text-align: right;
-        a {font-family: serif; font-size: 1em;}
         font-family: serif;
+        
+        a {font-family: serif; font-size: 1em;}
+        
     }
     cite::before {
         content: "-";
@@ -275,13 +308,13 @@ blockquote {
 }
 
 @keyframes cycleFrames {
-    from { background-position: 0% bottom; }
-    to {background-position: 100% bottom; }
+    from {  background-position: 0%   bottom; }
+    to {    background-position: 100% bottom; }
 }
 
 @keyframes move {
     to { 
-        top: calc(var(--position-y) * 1px);
+        top:  calc(var(--position-y) * 1px);
         left: calc(var(--position-x) * 1px);
     } 
 }

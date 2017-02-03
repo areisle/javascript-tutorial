@@ -101,15 +101,8 @@ $(document).ready(function(){
         e.preventDefault(); // prevent the default action (scroll / move caret)
     });
 
-    //copy buttons
-    //source: http://stackoverflow.com/questions/22581345/click-button-copy-to-clipboard-using-jquery
-    
-
-    console.log($('#scss-code')[0].innerText);
-    /* ------ POWERLINE -------*/
-    //get coordinates of powerline position, and well and direction of next coordinate?
-    //no idea how to do this
 });
+
 function copyToClipboard(elementId) {
 
   // Create a "hidden" input

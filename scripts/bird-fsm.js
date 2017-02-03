@@ -15,7 +15,7 @@ $(document).ready(function(){
             };
             var initialPosition = newton($(window).width()*0.8, path);
             $bird.css({'top': (initialPosition -0.9*$bird.width()) + 'px', 'left':($(window).width()*0.8-0.5*$bird.width()) + 'px'}); 
-            console.log($bird.css('left'));
+            //console.log($bird.css('left'));
             //this is also where I think i'll set up my event listeners for the animations
             //also, initialize play-state
         },
