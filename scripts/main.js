@@ -87,18 +87,19 @@ $(document).ready(function () {
         var origin = $('section.active').attr('id'),
             destination = $(this).attr('href').substring(1);
         navigate(origin, destination, angles, sections);
-        if ($('body').scrollTop() < $('.main-nav').offset().top) {
-            $('body').animate({scrollTop: $('.main-nav').offset().top}, 500);
+        if ($('html').scrollTop() < $('.main-nav').offset().top) {
+            $('html').animate({scrollTop: $('.main-nav').offset().top}, 500);
         }
     });
     //link to navigate to start of sections
     $('.wrapper > span > a').on('click', function (e) {
         e.preventDefault();
-        $('body').animate({scrollTop: $('.main-nav').offset().top}, 500);
+        console.log("clicked link");
+        $('html').animate({scrollTop: $('.main-nav').offset().top}, 500);
     });
     $('section > span > a:first-of-type').on('click', function (e) {
         e.preventDefault();
-        $('body').animate({scrollTop: 0}, 500);
+        $('html').animate({scrollTop: 0}, 500);
     });
     //events for arrow keys
     $(document).keydown(function (e) {
