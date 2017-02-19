@@ -1,6 +1,6 @@
 .sass-cache/
 *.css.map
 *.css
-!.gitignore
 !reset.css
 external-sources/
+.DS_Store
