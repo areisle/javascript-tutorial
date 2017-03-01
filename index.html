@@ -12,15 +12,7 @@
     <![endif]-->
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Cabin+Sketch|Cinzel+Decorative|Josefin+Sans|Josefin+Slab|Nixie+One" rel="stylesheet">
-    <!-- jQuery cdn -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <!-- lodash cdn (this had to be a particular version as the newest one didn't work with the machina library) -->
-    <script src="https://cdn.jsdelivr.net/lodash/3.10.1/lodash.min.js"></script>
-    <!-- Machina library -->
-    <script src="external-sources/machina.min.js"></script>
-    <script src="scripts/bird-fsm.min.js"></script>
-    <script src="external-sources/prism.min.js"></script>
-    <script src="scripts/main.min.js"></script>
+    
     <link rel="stylesheet" href="external-sources/prism.min.css">
 </head>
 <body>
@@ -471,5 +463,14 @@ function stopShuffling($thing, position){
             </pre>
         </section>
     </main>
+    <!-- jQuery cdn -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" defer></script>
+    <!-- lodash cdn (this had to be a particular version as the newest one didn't work with the machina library) -->
+    <script src="https://cdn.jsdelivr.net/lodash/3.10.1/lodash.min.js" defer></script>
+    <!-- Machina library -->
+    <script src="external-sources/machina.min.js" defer></script>
+    <script src="scripts/bird-fsm.min.js" defer></script>
+    <script src="external-sources/prism.min.js" async></script>
+    <script src="scripts/main.min.js" async></script>
 </body>
 </html>
