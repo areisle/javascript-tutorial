@@ -302,4 +302,12 @@ $(document).ready(function () {
 	$mainNavLi.each(function () {
 		$(this).css('top', newton($(this).offset().left, path) - $(window).width() / 100);
 	});
+    $(window).on('resize', function () {
+        //get links containers
+        path = document.getElementById("powerline");
+        $mainNavLi.each(function () {
+            $(this).css('top', newton($(this).offset().left, path) - $(window).width() / 100);
+        });
+        $bird.css('top', newton($bird.offset().left, path) - $(window).width() / 100 - $bird.height() * 0.8);
+    });
 });
