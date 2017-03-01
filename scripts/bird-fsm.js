@@ -59,7 +59,7 @@ function shuffle(x, step, path, direction) {
         newposition.x += step;
 
     } else {
-        //else throw error?d
+        //else throw error? 
         //add one in later
         console.log("error!");
         return;

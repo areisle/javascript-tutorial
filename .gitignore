@@ -4,3 +4,4 @@
 !reset.css
 external-sources/
 .DS_Store
+*.min.js

@@ -69,7 +69,7 @@ function copyToClipboard(elementId) {
     document.body.removeChild(aux);
 
 }
-
+ 
 $(document).ready(function () {
     "use strict";
 
